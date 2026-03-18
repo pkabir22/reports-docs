@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reports Documentation — ABL Analytics</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f8;color:#1a1a2e;line-height:1.6}
+.site-header{background:linear-gradient(135deg,#1a1a2e 0%,#2d2b5e 100%);color:#fff;padding:2.5rem 2rem 2rem;position:relative;overflow:hidden}
+.site-header::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;background:rgba(99,91,255,.12);border-radius:50%}
+.site-header::after{content:'';position:absolute;bottom:-40px;right:80px;width:140px;height:140px;background:rgba(99,91,255,.08);border-radius:50%}
+.header-inner{position:relative;z-index:1;max-width:900px;margin:0 auto}
+.header-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#9b96e8;margin-bottom:.5rem}
+.site-header h1{font-size:1.75rem;font-weight:700;letter-spacing:-.4px}
+.site-header h1 span{color:#a89dff}
+.site-header p{font-size:.9rem;color:#b0acd8;margin-top:.5rem;max-width:560px;line-height:1.6}
+.header-meta{display:flex;gap:.75rem;margin-top:1.25rem;flex-wrap:wrap}
+.hbadge{font-size:.7rem;background:rgba(255,255,255,.1);color:#c8ceea;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.15)}
+.hbadge-green{background:rgba(52,211,153,.15);color:#6ee7b7;border-color:rgba(52,211,153,.3)}
+
+/* NAV */
+.tab-nav{background:#fff;border-bottom:1px solid #e2e6f0;padding:0 2rem}
+.tab-nav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:.1rem}
+.tab-group-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#bbb;padding:0 .6rem;white-space:nowrap}
+.tab-divider{width:1px;height:20px;background:#e2e6f0;margin:0 .5rem}
+.tab-btn{padding:.7rem 1rem;font-size:.82rem;font-weight:500;color:#777;border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s;display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+.tab-btn:hover{color:#1a1a2e;background:#fafbff}
+.tab-btn.active{color:#4f46e5;border-bottom-color:#4f46e5}
+.tab-sub{font-size:.62rem;font-weight:400;color:#bbb}
+.tab-btn.active .tab-sub{color:#a5b4fc}
+
+.main{max-width:900px;margin:0 auto;padding:1.75rem 1.5rem}
+.tab-section-header{display:flex;align-items:flex-start;gap:1rem;background:#fff;border:1px solid #e2e6f0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem}
+.tab-section-icon{font-size:1.5rem;line-height:1;margin-top:.1rem}
+.tab-section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:.2rem}
+.tab-section-desc{font-size:.8rem;color:#777;line-height:1.6}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.75rem}
+.stat-card{background:#fff;border:1px solid #e2e6f0;border-radius:12px;padding:1rem 1.25rem;text-align:center}
+.stat-num{font-size:1.6rem;font-weight:700;color:#4f46e5}
+.stat-label{font-size:.7rem;color:#999;margin-top:.15rem;text-transform:uppercase;letter-spacing:.6px}
+
+.search-bar{display:flex;gap:.75rem;margin-bottom:1.25rem}
+.search-input{flex:1;padding:.65rem 1rem;border:1px solid #e2e6f0;border-radius:8px;font-size:.85rem;background:#fff;color:#1a1a2e}
+.search-input:focus{outline:none;border-color:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.08)}
+.filter-select{padding:.65rem .9rem;border:1px solid #e2e6f0;border-radius:8px;font-size:.82rem;background:#fff;color:#444;cursor:pointer}
+
+/* DASH SELECTOR */
+.dash-selector{display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.dash-sel-btn{padding:.6rem 1.1rem;font-size:.82rem;font-weight:600;color:#555;background:#fff;border:1px solid #e2e6f0;border-radius:8px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.5rem}
+.dash-sel-btn:hover{border-color:#a5b4fc;color:#4f46e5;background:#fafbff}
+.dash-sel-btn.active{background:#4f46e5;color:#fff;border-color:#4f46e5}
+
+.report-card{background:#fff;border:1px solid #e2e6f0;border-radius:14px;margin-bottom:1.25rem;overflow:hidden;transition:box-shadow .2s}
+.report-card:hover{box-shadow:0 4px 20px rgba(79,70,229,.08)}
+.rc-header{padding:1.1rem 1.4rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.rc-header:hover{background:#fafbff}
+.rc-title-group{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.rc-title{font-size:1rem;font-weight:700;color:#1a1a2e}
+.freq-badge{font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.6px}
+.freq-daily{background:#fef3c7;color:#92400e}
+.freq-live{background:#ede9fe;color:#5b21b6}
+.rc-meta{font-size:.78rem;color:#999;margin-top:.2rem}
+.chevron{font-size:.85rem;color:#bbb;transition:transform .2s;flex-shrink:0}
+.open .chevron{transform:rotate(180deg)}
+.rc-body{display:none;border-top:1px solid #f0f1f7;padding:1.4rem}
+.rc-body.show{display:block}
+
+.sec{margin-bottom:1.25rem}
+.sec-label{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#aaa;margin-bottom:.6rem}
+.sec-content{font-size:.84rem;color:#2d2d3a;line-height:1.75}
+.sec-box{background:#f8f9fc;border:1px solid #eef0f6;border-radius:10px;padding:1rem 1.1rem;margin-bottom:1.25rem}
+
+.report-sections-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.25rem}
+@media(max-width:580px){.report-sections-grid{grid-template-columns:1fr}}
+.rs-card{background:#fff;border:1px solid #e2e6f0;border-left:3px solid #4f46e5;border-radius:8px;padding:.85rem 1rem}
+.rs-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#4f46e5;margin-bottom:.35rem}
+.rs-body{font-size:.81rem;color:#444;line-height:1.6}
+
+.tools-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.4rem}
+.tool-pill{font-size:.71rem;font-weight:600;padding:4px 11px;border-radius:20px;border:1px solid}
+.tool-pq{background:#ede9fe;color:#5b21b6;border-color:#c4b5fd}
+.tool-vba{background:#fce7f3;color:#9d174d;border-color:#f9a8d4}
+.tool-formula{background:#dbeafe;color:#1e40af;border-color:#93c5fd}
+.tool-crm{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+.tool-manual{background:#f3f4f6;color:#374151;border-color:#d1d5db}
+.tool-sql{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
+.tool-pbi{background:#fce7f3;color:#9d174d;border-color:#f9a8d4}
+
+.ds-table{width:100%;border-collapse:collapse;font-size:.79rem;margin-top:.5rem}
+.ds-table th{text-align:left;padding:7px 10px;background:#f0f1f7;color:#666;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.5px}
+.ds-table td{padding:7px 10px;border-bottom:1px solid #f0f1f7;color:#2d2d3a;vertical-align:top;line-height:1.55}
+.ds-table tr:last-child td{border-bottom:none}
+.ds-table tr:hover td{background:#fafbff}
+
+.steps-list{counter-reset:step;list-style:none;margin-top:.5rem}
+.steps-list li{counter-increment:step;display:flex;gap:.85rem;margin-bottom:.85rem;font-size:.84rem;color:#2d2d3a;line-height:1.7}
+.steps-list li::before{content:counter(step);display:flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:50%;background:#4f46e5;color:#fff;font-size:.67rem;font-weight:700;margin-top:.18rem;flex-shrink:0}
+
+.timeline{margin-top:.5rem}
+.tl-item{display:flex;gap:1rem}
+.tl-left{display:flex;flex-direction:column;align-items:center}
+.tl-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
+.tl-dot-gray{background:#e8eaf0;color:#666}
+.tl-dot-indigo{background:#4f46e5;color:#fff}
+.tl-dot-amber{background:#fffbeb;border:2px dashed #f59e0b;color:#92400e}
+.tl-line{width:2px;background:#e8eaf0;flex:1;margin:4px 0}
+.tl-right{padding-bottom:1.4rem;flex:1}
+.tl-phase{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.2rem}
+.tl-title{font-size:.88rem;font-weight:700;margin-bottom:.4rem}
+.tl-body{font-size:.82rem;color:#444;line-height:1.7}
+.tl-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+.tag{font-size:.69rem;padding:3px 10px;border-radius:20px;border:1px solid;font-weight:500}
+.tag-gray{background:#f3f4f6;color:#6b7280;border-color:#e5e7eb}
+.tag-indigo{background:#ede9fe;color:#5b21b6;border-color:#c4b5fd}
+.tag-green{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
+.tag-amber{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+.tag-pink{background:#fce7f3;color:#9d174d;border-color:#f9a8d4}
+
+.callout{background:#eef2ff;border-left:3px solid #4f46e5;border-radius:0 8px 8px 0;padding:.8rem 1rem;font-size:.82rem;color:#3730a3;line-height:1.65;margin-bottom:1.25rem}
+
+.cte-flow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.5rem 0}
+.cte-node{background:#eef2ff;border:1px solid #c7d2fe;border-radius:6px;padding:4px 12px;font-size:.72rem;font-weight:700;color:#4338ca;font-family:monospace}
+.cte-arrow{color:#a5b4fc;font-size:.8rem}
+.cte-node-final{background:#4f46e5;color:#fff;border-color:#4f46e5}
+
+.tool-ref-card{background:#fff;border:1px solid #e2e6f0;border-radius:10px;padding:1rem 1.1rem;margin-bottom:.75rem}
+.tool-ref-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.35rem}
+.tool-ref-body{font-size:.83rem;color:#444;line-height:1.65}
+.blurred{filter:blur(5px);user-select:none}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-eyebrow">ABL Analytics Team</div>
+    <h1>Reports <span>Documentation</span></h1>
+    <p>A living reference for how ABL's reports are built, automated, and maintained — covering data sources, production steps, business logic, and ongoing improvements.</p>
+    <p style="font-size:.78rem;color:#7b75c9;margin-top:.4rem">Documentation prepared by Mahfuz Kabir · ABL Analytics Team</p>
+    <div class="header-meta">
+      <span class="hbadge">Last updated: March 2026</span>
+      <span class="hbadge">v1.0</span>
+      <span class="hbadge hbadge-green">● Active</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <div class="tab-nav-inner">
+    <span class="tab-group-label">Content</span>
+    <button class="tab-btn active" onclick="switchTab('reports',this)">
+      📊 Reports<span class="tab-sub">Excel · SQL</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('dashboards',this)">
+      ⚡ Dashboards<span class="tab-sub">SQL · Fabric · Power BI</span>
+    </button>
+    <div class="tab-divider"></div>
+    <span class="tab-group-label">Reference</span>
+    <button class="tab-btn" onclick="switchTab('tools',this)">
+      Tools<span class="tab-sub">&nbsp;</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('glossary',this)">
+      Glossary<span class="tab-sub">&nbsp;</span>
+    </button>
+  </div>
+</nav>
+
+
+<!-- ████ REPORTS TAB ████ -->
+<div id="tab-reports" class="main">
+  <div class="tab-section-header">
+    <div class="tab-section-icon">📊</div>
+    <div>
+      <div class="tab-section-title">Reports</div>
+      <div class="tab-section-desc">Excel-based and SQL-backed scheduled reports — produced daily, weekly, or on-demand for internal teams.</div>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Reports Documented</div></div>
+    <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Tools Used</div></div>
+    <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Teams Served</div></div>
+  </div>
+  <div class="search-bar">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search reports...">
+    <select class="filter-select" id="freqFilter">
+      <option value="">All frequencies</option>
+      <option value="daily">Daily</option>
+      <option value="weekly">Weekly</option>
+      <option value="monthly">Monthly</option>
+    </select>
+  </div>
+
+  <!-- REPORT 1: Daily Liquidity -->
+  <div class="report-card" data-freq="daily" data-keywords="liquidity treasury cash securitization warehouse dscr rtl pve covenant capital markets">
+    <div class="rc-header" onclick="toggleCard(this)">
+      <div>
+        <div class="rc-title-group">
+          <span class="rc-title">Daily Liquidity Report</span>
+          <span class="freq-badge freq-daily">Daily</span>
+        </div>
+        <div class="rc-meta">Treasury &amp; Capital Markets Teams · ~30–40 min to produce</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="rc-body show">
+
+      <div style="background:#fff;border:1px solid #e2e6f0;border-radius:10px;padding:.75rem 1.1rem;margin-bottom:1.25rem;display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center">
+        <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:#555">Automation increased from <strong style="font-size:.9rem;font-weight:700;color:#4f46e5">15% → 75%</strong></div>
+        <div style="width:1px;height:20px;background:#e2e6f0"></div>
+        <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:#555">Production time cut from <strong style="font-size:.9rem;font-weight:700;color:#4f46e5">~45 min → ~25 min</strong></div>
+        <div style="width:1px;height:20px;background:#e2e6f0"></div>
+        <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:#555">Report <strong style="color:#4f46e5">handed over</strong> to Treasury — Mar 2026</div>
+        <div style="width:1px;height:20px;background:#e2e6f0"></div>
+        <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:#555">Built &amp; automated by <strong style="color:#4f46e5">Mahfuz Kabir</strong></div>
+      </div>
+
+      <div class="callout">This is ABL's most critical and complex daily report — a real-time command center for the Treasury and Capital Markets teams' liquidity management, covenant compliance, and capital markets decision-making.</div>
+
+      <div class="sec-box sec">
+        <div class="sec-label">Purpose &amp; Overview</div>
+        <div class="sec-content">A comprehensive daily snapshot of ABL's capital structure and liquidity position. Covers real-time warehouse utilization, liquidity runway, funding mix, and covenant compliance across all warehouses and securitization shelves.</div>
+      </div>
+
+      <div class="sec-box sec">
+        <div class="sec-label">Report Sections</div>
+        <div class="report-sections-grid">
+          <div class="rs-card"><div class="rs-title">Section 1 — Capital Structure &amp; Liquidity Snapshot</div><div class="rs-body">Daily overview of total indebtedness, available capacity, leverage ratios, blended cost of capital, and ending cash position.</div></div>
+          <div class="rs-card"><div class="rs-title">Section 2 — Securitizations (2 RTL Shelves)</div><div class="rs-body">Balances, cash held in payment/accumulation accounts, UPB surplus/shortfall, and associated funding costs per securitization shelf.</div></div>
+          <div class="rs-card"><div class="rs-title">Section 3 — Warehouse Financing (Multi-Bank)</div><div class="rs-body">Facility limits, collateral pledged, outstanding balances, PVE, funding costs, and covenant status per lender/warehouse.</div></div>
+          <div class="rs-card"><div class="rs-title">Section 4 — Daily Cash Flow Tracker &amp; 29-Day Projection</div><div class="rs-body">Ties operating cash &amp; PVE to funding activity, capital markets actions, payoffs, payroll, ending liquidity, and covenant coverage for the next <strong>29 work days</strong>.</div></div>
+        </div>
+      </div>
+
+      <div class="sec-box sec">
+        <div class="sec-label">Tools Used</div>
+        <div class="tools-row">
+          <span class="tool-pill tool-pq">Power Query</span>
+          <span class="tool-pill tool-vba">VBA Macros</span>
+          <span class="tool-pill tool-formula">Excel Formulas &amp; Referencing</span>
+          <span class="tool-pill tool-crm">Dynamics CRM</span>
+          <span class="tool-pill tool-manual">Manual Entry (External Sources)</span>
+        </div>
+      </div>
+
+      <div class="sec-box sec">
+        <div class="sec-label">Data Sources</div>
+        <table class="ds-table">
+          <thead><tr><th>Source</th><th>Item</th><th>Description</th><th>Method</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="4" style="font-weight:600;vertical-align:top;padding-top:9px">Dynamics CRM</td><td>Bridge tab</td><td>RTL haircut projection — current day + 29 work days</td><td><span class="tool-pill tool-pq" style="font-size:.67rem">Power Query</span></td></tr>
+            <tr><td>Term tab</td><td>DSCR haircut projection — current day + 29 work days</td><td><span class="tool-pill tool-pq" style="font-size:.67rem">Power Query</span></td></tr>
+            <tr><td>RTL1 UPBs (2 tabs)</td><td>2024-RTL1 and 2025-RTL1 trust UPBs</td><td><span class="tool-pill tool-pq" style="font-size:.67rem">Power Query</span></td></tr>
+            <tr><td>1Sharpe UPB &amp; Balance</td><td>SUM(col Y) = UPB · SUM(col BX) = Balance</td><td><span class="tool-pill tool-pq" style="font-size:.67rem">Power Query</span></td></tr>
+            <tr><td rowspan="2" style="font-weight:600;vertical-align:top;padding-top:9px">Excel (Dropbox)</td><td>CFSB Daily Summary</td><td><code style="font-size:.71rem">...\1_cfsb\Daily RPC Sheets\2026</code></td><td><span class="tool-pill tool-pq" style="font-size:.67rem">Get Data › Excel</span></td></tr>
+            <tr><td>Nomura EOD Report</td><td><code style="font-size:.71rem">...\Nomura_EDO_M203s\[Month]</code></td><td><span class="tool-pill tool-pq" style="font-size:.67rem">Get Data › Excel</span></td></tr>
+            <tr><td rowspan="2" style="font-weight:600;vertical-align:top;padding-top:9px">Emails</td><td>Mizuho EOD Figures</td><td>Received via Mizuho's end-of-day email</td><td><span class="tool-pill tool-manual" style="font-size:.67rem">Manual entry</span></td></tr>
+            <tr><td>Payoffs</td><td>Investor Notification Deposit PDFs. Principal Payment col (6th from right) × 22.5%. Sum all PDFs → cell L23.</td><td><span class="tool-pill tool-manual" style="font-size:.67rem">Manual — PDF calc</span></td></tr>
+            <tr><td rowspan="2" style="font-weight:600;vertical-align:top;padding-top:9px">Financial Portals</td><td>Operating Cash</td><td>CFSB portal: <code style="font-size:.71rem">SUM(Acct 5247 + Acct 5239 + Mor Dutch Esc + Acct 5352)</code></td><td><span class="tool-pill tool-manual" style="font-size:.67rem">Manual entry</span></td></tr>
+            <tr><td>RTL1 PA &amp; AA</td><td>Payment Account and Accumulation Account balances from USB Pivot portal</td><td><span class="tool-pill tool-manual" style="font-size:.67rem">Manual entry</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-box sec">
+        <div class="sec-label">Power Query Code — CRM Data Connections</div>
+        <div style="font-size:.82rem;color:#444;margin-bottom:1rem;line-height:1.65">All CRM data is pulled via native SQL against <code>abl1.crm.dynamics.com</code> using the <code>CommonDataService.Database</code> connector.</div>
+
+        <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+          <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('q1')">
+            <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">Bridge</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">RTL origination pipeline · Native SQL + M</span>
+              <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">Haircut: -50% GUC / -15% other</span><span class="tag tag-indigo" style="font-size:.67rem">LEFT JOIN × 2</span></div>
+            </div><span id="q1-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+          </div>
+          <div id="q1" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+            <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre"><span style="color:#89b4fa">let</span>
+    source = CommonDataService.Database(<span style="color:#a6e3a1">"abl1.crm.dynamics.com"</span>),
+    query = <span style="color:#a6e3a1">"
+    select distinct
+        o.name as 'Property Address',
+        cast(pr.new_processing_projected_close_date as date) as 'TOE Closing Date',
+        o.new_dealstagename as 'Deal Stage',
+        o.new_visableupb as 'UPB',
+        case
+            when o.new_loanpurposename like '%New Construction%'
+                then (-0.5 * o.new_visableupb)
+            else (-0.15 * o.new_visableupb)
+        end as 'Haircut'
+    from opportunity as o
+    left join new_processing as pr on o.opportunityid = pr.new_opportunity
+    left join new_postclose as p on o.new_servicingfile = p.new_postcloseid
+    where o.statecodename = 'Open'
+        and pr.new_processing_projected_close_date >= cast(getdate() as date)
+        and o.new_dealstagename in ('Clear To Close', 'Final Underwriting', 'Processing')
+        and LOWER(o.name) NOT LIKE '%test%'
+"</span>,
+    response = Value.NativeQuery(source, query),
+    <span style="color:#cba6f7">#"Sorted Rows"</span> = Table.Sort(response,{{<span style="color:#a6e3a1">"TOE Closing Date"</span>, Order.Ascending}})
+<span style="color:#89b4fa">in</span>
+    <span style="color:#cba6f7">#"Sorted Rows"</span></pre>
+          </div>
+        </div>
+
+        <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+          <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('q2')">
+            <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">Term</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">DSCR origination pipeline · Native SQL + M</span>
+              <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">Haircut: -10% all loans</span><span class="tag tag-indigo" style="font-size:.67rem">LEFT JOIN × 2</span><span class="tag tag-amber" style="font-size:.67rem">5 pipeline stages</span></div>
+            </div><span id="q2-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+          </div>
+          <div id="q2" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+            <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre"><span style="color:#89b4fa">let</span>
+    source = CommonDataService.Database(<span style="color:#a6e3a1">"abl1.crm.dynamics.com"</span>),
+    query = <span style="color:#a6e3a1">"
+    select distinct
+        o.new_subject as 'Property Address',
+        cast(pr.new_processing_projected_close_date as date) as 'TOE Closing Date',
+        o.new_activedealstagename as 'Deal Stage',
+        o.new_statusname as 'Loan Status',
+        o.new_targetloanbuyername as 'Loan Buyer',
+        o.new_totalloanamount as 'UPB',
+        (-0.1 * o.new_totalloanamount) as 'Haircut'
+    from new_termloan as o
+    left join new_processing as pr on o.new_termloanid = pr.new_termloan
+    left join new_termservicingfile as s on o.new_termloanid = s.new_termfile
+    where o.new_statusname = 'Open'
+        and o.statuscodename &lt;&gt; 'Inactive'
+        and pr.new_processing_projected_close_date >= cast(getdate() as date)
+        and o.new_activedealstagename in ('Clear To Close', 'Final Underwriting',
+            'Processing', 'Conditionally Approved', 'Initial Underwrite')
+        and LOWER(o.new_subject) NOT LIKE '%test%'
+"</span>,
+    response = Value.NativeQuery(source, query),
+    <span style="color:#cba6f7">#"Sorted Rows"</span> = Table.Sort(response,{{<span style="color:#a6e3a1">"TOE Closing Date"</span>, Order.Ascending}})
+<span style="color:#89b4fa">in</span>
+    <span style="color:#cba6f7">#"Sorted Rows"</span></pre>
+          </div>
+        </div>
+
+        <!-- 2024-RTL1 -->
+        <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+          <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('q3')">
+            <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">2024-RTL1</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">RTL shelf loan data · Native SQL</span>
+              <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-indigo" style="font-size:.67rem">CDS Native SQL</span><span class="tag tag-gray" style="font-size:.67rem">LEFT JOIN × 1</span><span class="tag tag-pink" style="font-size:.67rem">3 CASE statements</span><span class="tag tag-green" style="font-size:.67rem">Custom UPB calc</span></div>
+            </div><span id="q3-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+          </div>
+          <div id="q3" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+            <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre"><span style="color:#89b4fa">let</span>
+    source = CommonDataService.Database(<span style="color:#a6e3a1">"abl1.crm.dynamics.com"</span>),
+    query = <span style="color:#a6e3a1">"
+    SELECT
+        s.new_loannumber1 as 'ln_id',
+        o.new_los_property_address1 as 'address',
+        s.new_spdate as 'ln_sold_date',
+        o.new_loanamount as 'ln_amount',
+        CASE
+            WHEN o.new_escrowagentname = 'ABL RPC Dutch'
+                THEN o.new_loanamount
+                ELSE (
+                    o.new_cashavailableforhousepurchaseatclose
+                    + s.new_drawfundsdisbursed
+                    + o.new_interestescrow
+                    + o.new_escrowother
+                    - s.new_blanketpropertypaydown
+                )
+        END AS 'upb',
+        s.new_upb as 'crm_upb',
+        o.new_cashavailableforhousepurchaseatclose as 'day1_upb',
+        s.new_loanownername as 'owner',
+        CASE
+            WHEN o.new_loanpurposename LIKE '%Construction%' THEN 'Ground Up'
+            WHEN o.new_loanpurposename LIKE '%Rehabilitation%' THEN 'Fix &amp; Flip'
+            ELSE 'Bridge'
+        END AS 'ln_type',
+        CASE
+            WHEN o.new_loanpurposename LIKE '%Stabilized%' THEN 'ARM'
+            ELSE 'Fixed'
+        END AS 'ARM Flag',
+        CASE
+            WHEN o.new_loanpurposename LIKE '%Purchase%' THEN 'Purchase'
+            WHEN o.new_loanpurposename LIKE '%Cash Out%' THEN 'CO Refi'
+            WHEN o.new_loanpurposename LIKE '%Loan Refinance%' THEN 'RT Refi'
+            WHEN o.new_loanpurposename = 'Refinance &amp; New Construction' THEN 'RT Refi'
+            WHEN o.new_loanpurposename IN ('Property New Construction Only',
+                 'Property Rehabilitation Only') THEN 'RT Refi'
+            ELSE ''
+        END AS 'ln_purpose',
+        REPLACE(o.new_escrowagentname,'ABL RPC','') as 'escrow_type'
+    FROM opportunity as o
+    LEFT JOIN new_postclose as s
+        ON o.new_servicingfile = s.new_postcloseid
+    WHERE s.new_loanownername = 'ABL2024RTL1'
+        AND o.new_dealstagename &lt;&gt; 'Paid Off'
+"</span>,
+    myQuery = Value.NativeQuery(source, query)
+<span style="color:#89b4fa">in</span>
+    myQuery</pre>
+          </div>
+        </div>
+
+        <!-- 2025-RTL1 -->
+        <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+          <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('q4')">
+            <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">2025-RTL1</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">RTL shelf loan data · Native SQL</span>
+              <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-indigo" style="font-size:.67rem">CDS Native SQL</span><span class="tag tag-gray" style="font-size:.67rem">LEFT JOIN × 1</span><span class="tag tag-pink" style="font-size:.67rem">3 CASE statements</span><span class="tag tag-green" style="font-size:.67rem">Extended UPB calc</span><span class="tag tag-amber" style="font-size:.67rem">+coupon, points, gl_name</span></div>
+            </div><span id="q4-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+          </div>
+          <div id="q4" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+            <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre"><span style="color:#89b4fa">let</span>
+    source = CommonDataService.Database(<span style="color:#a6e3a1">"abl1.crm.dynamics.com"</span>),
+    query = <span style="color:#a6e3a1">"
+    SELECT
+        s.new_loannumber1 as 'ln_id',
+        o.new_los_property_address1 as 'address',
+        o.new_los_property_city as 'city',
+        o.new_ltspropertystatenname as 'state',
+        o.new_trueclosingdate as 'note_date',
+        o.new_loanamount as 'ln_amount',
+        CASE
+            WHEN o.new_escrowagentname = 'ABL RPC Dutch'
+                THEN o.new_loanamount
+                ELSE o.new_cashavailableforhousepurchaseatclose +
+                     s.new_drawfundsdisbursed +
+                     o.new_interestescrow +
+                     o.new_escrowother -
+                     s.new_blanketpropertypaydown -
+                     o.abl_drawfundsreleasedatclose
+        END AS 'upb',
+        o.new_ltsinterestrate / 100 as 'coupon',
+        o.new_ltspoints / 100 as 'points',
+        o.new_guarantor1lname as 'gl_name',
+        s.new_loanownername as 'owner',
+        CASE
+            WHEN o.new_loanpurposename LIKE '%Construction%' THEN 'Ground Up'
+            WHEN o.new_loanpurposename LIKE '%Rehabilitation%' THEN 'Fix &amp; Flip'
+            ELSE 'Bridge'
+        END AS 'ln_type',
+        CASE
+            WHEN o.new_loanpurposename LIKE '%Stabilized%' THEN 'ARM'
+            ELSE 'Fixed'
+        END AS 'ARM Flag',
+        CASE
+            WHEN o.new_loanpurposename LIKE '%Purchase%' THEN 'Purchase'
+            WHEN o.new_loanpurposename LIKE '%Cash Out%' THEN 'CO Refi'
+            WHEN o.new_loanpurposename LIKE '%Loan Refinance%' THEN 'RT Refi'
+            WHEN o.new_loanpurposename = 'Refinance &amp; New Construction' THEN 'RT Refi'
+            WHEN o.new_loanpurposename IN ('Property New Construction Only',
+                 'Property Rehabilitation Only') THEN 'RT Refi'
+            ELSE ''
+        END AS 'ln_purpose',
+        REPLACE(o.new_escrowagentname,'ABL RPC','') as 'escrow_type'
+    FROM opportunity as o
+    LEFT JOIN new_postclose as s
+        ON o.new_servicingfile = s.new_postcloseid
+    WHERE s.new_loanownername = 'ABL2025RTL1'
+        AND o.new_dealstagename &lt;&gt; 'Paid Off'
+"</span>,
+    myQuery = Value.NativeQuery(source, query)
+<span style="color:#89b4fa">in</span>
+    myQuery</pre>
+          </div>
+        </div>
+
+        <!-- 1Sharpe -->
+        <div style="border:1px solid #e2e6f0;border-radius:8px;overflow:hidden">
+          <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('q5')">
+            <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">1Sharpe</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">Warehouse collateral &amp; classification · Native SQL</span>
+              <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-indigo" style="font-size:.67rem">CDS Native SQL</span><span class="tag tag-gray" style="font-size:.67rem">LEFT JOIN × 3</span><span class="tag tag-pink" style="font-size:.67rem">15+ CASE statements</span><span class="tag tag-green" style="font-size:.67rem">1Sharpe_Classification logic</span><span class="tag tag-amber" style="font-size:.67rem">COALESCE + CONCAT + null-safe</span></div>
+            </div><span id="q5-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+          </div>
+          <div id="q5" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+            <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre"><span style="color:#89b4fa">let</span>
+    source = CommonDataService.Database(<span style="color:#a6e3a1">"abl1.crm.dynamics.com"</span>),
+    query = <span style="color:#a6e3a1">"
+    select
+        'ABL RPC Residential Credit Acquisition LLC' as 'Lender',
+        cast(s.new_loannumber1 as int) as 'Loan Number',
+        case
+            when o.new_loanpurposename like '%Construction%' then 'Ground Up'
+            when o.new_loanpurposename like '%Rehabilitation%' then 'Lender Funded Rehab'
+            else 'Bridge'
+        end as 'Loan Program',
+        o.new_borrowingentity as 'Business Entity Borrower Name',
+        o.new_guarantor1lastname as 'Guarantor Last Name',
+        o.new_guarantor1firstname as 'Guarantor First Name',
+        case
+            when o.new_loanpurposename like '%Cash Out%' then 'Cash Out'
+            when o.new_loanpurposename like '%Purchase%' then 'Purchase'
+            else 'Refinance'
+        end as 'Loan Purpose',
+        o.new_trueclosingdate as 'Note Date',
+        o.new_loanamount as 'Original Loan Amount',
+        o.new_ltsinterestrate / 100 as 'Original Interest Rate',
+        (o.new_cashavailableforhousepurchaseatclose
+         + s.new_drawfundsdisbursed
+         + o.new_interestescrow
+         + o.new_escrowother
+         - s.new_blanketpropertypaydown) as 'Current Loan Amount',
+        o.new_los_property_address1 as 'Property Address',
+        o.new_los_property_city as 'Property City',
+        o.new_ltspropertystatenname as 'Property State',
+        o.new_propertyzipcode as 'Property Zip',
+        o.new_ficotruemid as 'Orig Borrower FICO',
+        <span style="color:#f38ba8">-- 1Sharpe_Classification: 15+ CASE conditions
+        -- combining DQ status, property type, loan purpose,
+        -- rehab amount vs as-is value thresholds</span>
+        CASE
+            WHEN s.new_daysdelinquentcalculated >= 30
+                AND UPPER(COALESCE(o.new_ltspropertytypename,'')) LIKE '%SINGLE%FAMILY%'
+                AND COALESCE(o.new_rehabamount,0) >= 0.5 * COALESCE(o.new_ltsasis,0)
+            THEN 'DQ/ SFR/ Heavy Rehab'
+            WHEN s.new_daysdelinquentcalculated >= 30
+                AND UPPER(COALESCE(o.new_ltspropertytypename,'')) LIKE '%SINGLE%FAMILY%'
+                AND COALESCE(o.new_rehabamount,0) &lt; 0.5 * COALESCE(o.new_ltsasis,0)
+            THEN 'DQ/ SFR/ Rehab'
+            WHEN s.new_daysdelinquentcalculated >= 30
+                AND UPPER(COALESCE(o.new_ltspropertytypename,'')) LIKE '%SINGLE%FAMILY%'
+                AND UPPER(COALESCE(o.new_loanpurposename,'')) NOT LIKE '%REHAB%'
+            THEN 'DQ/ SFR/ Bridge'
+            WHEN s.new_daysdelinquentcalculated &lt; 30
+                AND UPPER(COALESCE(o.new_ltspropertytypename,'')) LIKE '%SINGLE%FAMILY%'
+                AND COALESCE(o.new_rehabamount,0) >= 0.5 * COALESCE(o.new_ltsasis,0)
+            THEN 'SFR/ Heavy Rehab'
+            WHEN s.new_daysdelinquentcalculated &lt; 30
+                AND UPPER(COALESCE(o.new_ltspropertytypename,'')) LIKE '%SINGLE%FAMILY%'
+                AND COALESCE(o.new_rehabamount,0) &lt; 0.5 * COALESCE(o.new_ltsasis,0)
+            THEN 'SFR/ Rehab'
+            WHEN s.new_daysdelinquentcalculated &lt; 30
+                AND UPPER(COALESCE(o.new_ltspropertytypename,'')) LIKE '%MULTI%FAMILY%'
+                AND UPPER(COALESCE(o.new_loanpurposename,'')) NOT LIKE '%REHAB%'
+            THEN 'MFR/ Bridge'
+            ELSE NULL
+        END AS '1Sharpe_Classification'
+    from opportunity as o
+    left join new_postclose as s
+        on o.new_servicingfile = s.new_postcloseid
+    left join contact as c
+        on o.new_guarantor1lu = c.contactid
+    where
+        s.new_loanownername in ('1Sharpe (Warehouse)', '1Sharpe (Whole Loan)')
+        and o.new_dealstagename &lt;&gt; 'Paid Off'
+"</span>,
+    myQuery = Value.NativeQuery(source, query)
+<span style="color:#89b4fa">in</span>
+    myQuery</pre>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="sec-box sec">
+        <div class="sec-label">Step-by-Step Production Process</div>
+        <ol class="steps-list">
+          <li><strong>Refresh Dynamics CRM Power Queries</strong> — open the master workbook and run "Refresh All" to pull the latest data into all CRM-connected tabs.</li>
+          <li><strong>Load CFSB Daily Summary</strong> — confirm Treasury has uploaded the latest Daily RPC Sheet to Dropbox. Load via Get Data › From Excel Workbook.</li>
+          <li><strong>Load Nomura EOD Report</strong> — confirm upload to Dropbox, load the Results tab.</li>
+          <li><strong>Enter Mizuho EOD figures</strong> — open the Mizuho end-of-day email and enter figures manually into the 1_Pager.</li>
+          <li><strong>Calculate and enter Payoffs</strong> — open each Investor Notification Deposit PDF. Principal Payment col (6th from right) × 22.5%, sum all → cell L23.</li>
+          <li><strong>Enter Teams channel data</strong> — check Teams for DSCR Sale/Repo, RTL/Trust activity, and other capital/funding activity.</li>
+          <li><strong>Enter Operating Cash</strong> — CFSB portal: SUM(Acct 5247 + Acct 5239 + Mor Dutch Esc + Acct 5352).</li>
+          <li><strong>Enter RTL1 PA &amp; AA figures</strong> — USB Pivot portal: enter Payment Account and Accumulation Account balances for 2024-RTL1 and 2025-RTL1.</li>
+          <li><strong>Verify formula propagation</strong> — confirm all data has flowed correctly into the 1_Pager.</li>
+          <li><strong>Validate covenant &amp; liquidity figures</strong> — review covenant cells, cross-check ending cash, WH utilization, and PVE.</li>
+        </ol>
+      </div>
+
+      <div class="sec-box sec">
+        <div class="sec-label">Automation Journey &amp; Impact</div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot tl-dot-gray">1</div><div class="tl-line"></div></div>
+            <div class="tl-right">
+              <div class="tl-phase" style="color:#999">Original State</div>
+              <div class="tl-title" style="color:#555">Mostly Manual — ~45–50 min</div>
+              <div class="tl-body">~15% automated. Mahfuz handled full production end-to-end.</div>
+              <div class="tl-tags"><span class="tag tag-gray">~85% manual</span><span class="tag tag-indigo">~15% Power Query</span></div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot tl-dot-indigo">2</div><div class="tl-line"></div></div>
+            <div class="tl-right">
+              <div class="tl-phase" style="color:#4f46e5">From March 7, 2026</div>
+              <div class="tl-title" style="color:#4f46e5">Power Query Overhaul — Handed Over to Treasury</div>
+              <div class="tl-body">Dedicated Power Query connections built for all CRM feeds. Ownership formally transitioned to Treasury on March 7, 2026.</div>
+              <div class="tl-tags"><span class="tag tag-indigo">~60% Power Query</span><span class="tag tag-green">~30–40 min</span></div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot tl-dot-amber">3</div></div>
+            <div class="tl-right">
+              <div class="tl-phase" style="color:#b45309">Completed — March 17, 2026</div>
+              <div class="tl-title" style="color:#92400e">VBA Macro Installed — 75% Automation</div>
+              <div class="tl-body">VBA macro <code>RefreshAllQueries</code> consolidates all Power Query refreshes into one button click. Production time ~20–25 min.</div>
+              <div class="tl-tags"><span class="tag tag-pink">VBA Macro</span><span class="tag tag-indigo">~75% automated</span><span class="tag tag-green">~20–25 min</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-box sec">
+        <div class="sec-label">VBA Macro — RefreshAllQueries</div>
+        <div style="background:#1e1e2e;border-radius:8px;padding:1rem;overflow-x:auto">
+          <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.8;margin:0;white-space:pre"><span style="color:#a6e3a1">' Author: Mahfuz Kabir · March 17, 2026</span>
+<span style="color:#89b4fa">Sub</span> RefreshAllQueries()
+    <span style="color:#89b4fa">Dim</span> cn <span style="color:#89b4fa">As</span> WorkbookConnection
+    <span style="color:#89b4fa">For Each</span> cn <span style="color:#89b4fa">In</span> ThisWorkbook.Connections
+        cn.Refresh
+    <span style="color:#89b4fa">Next</span> cn
+    MsgBox <span style="color:#a6e3a1">"All queries refreshed!"</span>, vbInformation
+<span style="color:#89b4fa">End Sub</span></pre>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /report 1 -->
+</div><!-- /tab-reports -->
+
+
+<!-- ████ DASHBOARDS TAB ████ -->
+<div id="tab-dashboards" class="main" style="display:none">
+  <div class="tab-section-header">
+    <div class="tab-section-icon">⚡</div>
+    <div>
+      <div class="tab-section-title">Dashboards</div>
+      <div class="tab-section-desc">Always-on Power BI dashboards backed by SQL mart tables in Databricks / Microsoft Fabric — refreshed automatically from the CRM staging layer.</div>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Dashboards Documented</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Tools Used</div></div>
+    <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Team Served</div></div>
+  </div>
+
+  <!-- SELECTOR BUTTONS -->
+  <div class="dash-selector">
+    <button class="dash-sel-btn active" onclick="switchDash('dash1',this)">⚡ DSCR UW KPI Dash</button>
+    <button class="dash-sel-btn" onclick="switchDash('dash2',this)">🔄 DSCR Target Loan Buyer Changer Dash</button>
+  </div>
+
+  <!-- DASHBOARD 1 -->
+  <div id="dash1">
+    <div class="report-card">
+      <div class="rc-header" onclick="toggleCard(this)">
+        <div>
+          <div class="rc-title-group">
+            <span class="rc-title">DSCR Underwriting KPI Dashboard</span>
+            <span class="freq-badge freq-live">Live / Always-on</span>
+          </div>
+          <div class="rc-meta">DSCR UW Team · Power BI · Backed by <code>marts.kpi.kpi__dscr_underwriting</code></div>
+        </div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="rc-body show">
+        <div class="callout">This dashboard is powered by a single large SQL mart table — <code>marts.kpi.kpi__dscr_underwriting</code> — built by Mahfuz from scratch. The table was constructed first as a multi-CTE <code>CREATE OR REPLACE TABLE</code> statement in Databricks SQL, then Power BI was connected via <code>SELECT * FROM marts.kpi.kpi__dscr_underwriting</code>.</div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">How It Was Built — Two-Step Approach</div>
+          <div class="report-sections-grid">
+            <div class="rs-card" style="border-left-color:#4f46e5"><div class="rs-title" style="color:#4f46e5">Step 1 — Build the SQL Mart Table</div><div class="rs-body">Mahfuz wrote a single large SQL query (196 lines, 6 CTEs) as a <code>CREATE OR REPLACE TABLE</code> statement pulling from <code>staging.dynamics.term</code> and <code>staging.dynamics.audit</code>.</div></div>
+            <div class="rs-card" style="border-left-color:#059669"><div class="rs-title" style="color:#059669">Step 2 — Connect Power BI</div><div class="rs-body">Once the mart table was live, Power BI was pointed at it with:<br><br><code style="background:#f0fdf4;padding:3px 8px;border-radius:4px;font-size:.8rem">SELECT * FROM marts.kpi.kpi__dscr_underwriting</code></div></div>
+          </div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Purpose &amp; Overview</div>
+          <div class="sec-content">Tracks DSCR loans from pipeline entry through underwriting milestones to close. Surfaces how long loans spend in each stage, how many times loans are re-submitted for Final UW, and what stage loans move to after Initial and Final Underwriting.</div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Tools &amp; Stack</div>
+          <div class="tools-row">
+            <span class="tool-pill tool-sql">Databricks SQL</span>
+            <span class="tool-pill tool-crm">Dynamics CRM (staging layer)</span>
+            <span class="tool-pill tool-pbi">Power BI</span>
+          </div>
+          <div style="font-size:.8rem;color:#555;margin-top:.75rem;line-height:1.7"><strong>Target table:</strong> <code>marts.kpi.kpi__dscr_underwriting</code><br><strong>Source tables:</strong> <code>staging.dynamics.term</code> · <code>staging.dynamics.audit</code></div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">CTE Architecture</div>
+          <div class="cte-flow">
+            <div class="cte-node">cte</div><span class="cte-arrow">→</span>
+            <div class="cte-node">first_lts_sent</div><span class="cte-arrow">→</span>
+            <div class="cte-node">first_initial_uw</div><span class="cte-arrow">→</span>
+            <div class="cte-node">before_initial_uw</div><span class="cte-arrow">→</span>
+            <div class="cte-node">first_final_uw</div><span class="cte-arrow">→</span>
+            <div class="cte-node">before_final_uw</div><span class="cte-arrow">→</span>
+            <div class="cte-node">total_final_uw_mark</div><span class="cte-arrow">→</span>
+            <div class="cte-node cte-node-final">Final SELECT</div>
+          </div>
+          <div style="font-size:.78rem;color:#666;margin-top:.5rem">All audit-log CTEs use <code>row_number() over(partition by objectid, new_value order by createdon)</code> and filter to <code>n = 1</code> to capture the first occurrence of each transition. The CTEs below are shown split for readability — they all run as one single cell in Databricks.</div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">SQL — Full Query</div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('dq1')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">cte — Base Loan Population</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.term</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-indigo" style="font-size:.67rem">Won: closing_date ≥ 2025-01-01</span><span class="tag tag-green" style="font-size:.67rem">Active pipeline: 5 deal stages</span></div>
+              </div><span id="dq1-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="dq1" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre"><span style="color:#89b4fa">create or replace table</span> marts.kpi.kpi__dscr_underwriting <span style="color:#89b4fa">as</span> (
+<span style="color:#89b4fa">with</span> cte <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span>
+        new_termloanid          <span style="color:#89b4fa">as</span> guid,
+        new_statusname          <span style="color:#89b4fa">as</span> status,
+        statuscodename,
+        new_activedealstage name <span style="color:#89b4fa">as</span> deal_stage,
+        new_subject             <span style="color:#89b4fa">as</span> subject,
+        new_uwlookupname        <span style="color:#89b4fa">as</span> uw,
+        owneridname             <span style="color:#89b4fa">as</span> lo,
+        new_processorname       <span style="color:#89b4fa">as</span> processor,
+        new_targetloanbuyername <span style="color:#89b4fa">as</span> target_loan_buyer,
+        <span style="color:#89b4fa">cast</span>(new_trueclosingdate <span style="color:#89b4fa">as date</span>) <span style="color:#89b4fa">as</span> closing_date,
+        new_totalloanamount     <span style="color:#89b4fa">as</span> loan_amount
+    <span style="color:#89b4fa">from</span> staging.dynamics.term
+    <span style="color:#89b4fa">where</span>
+        (new_statusname = <span style="color:#a6e3a1">'Won'</span> <span style="color:#89b4fa">and</span> new_trueclosingdate &gt;= <span style="color:#a6e3a1">'2025-01-01'</span>)
+        <span style="color:#89b4fa">or</span> (
+            statuscodename != <span style="color:#a6e3a1">'Inactive'</span>
+            <span style="color:#89b4fa">and</span> new_statusname != <span style="color:#a6e3a1">'Lost'</span>
+            <span style="color:#89b4fa">and</span> new_activedealstage name <span style="color:#89b4fa">in</span> (
+                <span style="color:#a6e3a1">'Processing'</span>,<span style="color:#a6e3a1">'Initial Underwriting'</span>,
+                <span style="color:#a6e3a1">'Conditionally Approved'</span>,<span style="color:#a6e3a1">'Final Underwriting'</span>,<span style="color:#a6e3a1">'Clear To Close'</span>
+            )
+        )
+    <span style="color:#89b4fa">order by</span> closing_date <span style="color:#89b4fa">desc</span>
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('dq2')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">first_lts_sent — First Term Sheet Sent Date</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">new_name = 'Term Sheet Sent'</span><span class="tag tag-indigo" style="font-size:.67rem">row_number → n = 1</span></div>
+              </div><span id="dq2-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="dq2" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">first_lts_sent <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span> * <span style="color:#89b4fa">from</span> (
+        <span style="color:#89b4fa">select</span>
+            objectid,
+            <span style="color:#89b4fa">cast</span>(createdon <span style="color:#89b4fa">as date</span>) <span style="color:#89b4fa">as</span> 1st_lts_sent_date,
+            old_name <span style="color:#89b4fa">as</span> old_stage,
+            new_name <span style="color:#89b4fa">as</span> new_stage,
+            row_number() <span style="color:#89b4fa">over</span>(<span style="color:#89b4fa">partition by</span> objectid, new_value <span style="color:#89b4fa">order by</span> createdon) <span style="color:#89b4fa">as</span> n
+        <span style="color:#89b4fa">from</span> staging.dynamics.audit
+        <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+        <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span> <span style="color:#89b4fa">and</span> new_name = <span style="color:#a6e3a1">'Term Sheet Sent'</span>
+    ) <span style="color:#89b4fa">where</span> n = 1
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('dq3')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">first_initial_uw — First Initial Underwrite Date</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">new_name = 'Initial Underwrite'</span><span class="tag tag-indigo" style="font-size:.67rem">row_number → n = 1</span></div>
+              </div><span id="dq3-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="dq3" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">first_initial_uw <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span> * <span style="color:#89b4fa">from</span> (
+        <span style="color:#89b4fa">select</span>
+            objectid,
+            <span style="color:#89b4fa">cast</span>(createdon <span style="color:#89b4fa">as date</span>) <span style="color:#89b4fa">as</span> 1st_initial_uw_mark_date,
+            old_name <span style="color:#89b4fa">as</span> old_stage, new_name <span style="color:#89b4fa">as</span> new_stage,
+            row_number() <span style="color:#89b4fa">over</span>(<span style="color:#89b4fa">partition by</span> objectid, new_value <span style="color:#89b4fa">order by</span> createdon) <span style="color:#89b4fa">as</span> n
+        <span style="color:#89b4fa">from</span> staging.dynamics.audit
+        <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+        <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span> <span style="color:#89b4fa">and</span> new_name = <span style="color:#a6e3a1">'Initial Underwrite'</span>
+    ) <span style="color:#89b4fa">where</span> n = 1
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('dq4')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">before_initial_uw — Stage Before Initial UW</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-amber" style="font-size:.67rem">old_name = 'Initial Underwrite'</span><span class="tag tag-pink" style="font-size:.67rem">new_name in 3 stages</span></div>
+              </div><span id="dq4-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="dq4" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">before_initial_uw <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span> * <span style="color:#89b4fa">from</span> (
+        <span style="color:#89b4fa">select</span>
+            <span style="color:#89b4fa">cast</span>(createdon <span style="color:#89b4fa">as date</span>) <span style="color:#89b4fa">as</span> date_stage_before_initial_uw,
+            objectid, old_name <span style="color:#89b4fa">as</span> old_stage, new_name <span style="color:#89b4fa">as</span> new_stage,
+            row_number() <span style="color:#89b4fa">over</span>(<span style="color:#89b4fa">partition by</span> objectid, new_value <span style="color:#89b4fa">order by</span> createdon) <span style="color:#89b4fa">as</span> n
+        <span style="color:#89b4fa">from</span> staging.dynamics.audit
+        <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+        <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span>
+            <span style="color:#89b4fa">and</span> old_name = <span style="color:#a6e3a1">'Initial Underwrite'</span>
+            <span style="color:#89b4fa">and</span> new_name <span style="color:#89b4fa">in</span> (<span style="color:#a6e3a1">'Processing'</span>,<span style="color:#a6e3a1">'Processing - Needs Restructure'</span>,<span style="color:#a6e3a1">'Ready for Credit Pull'</span>)
+    ) <span style="color:#89b4fa">where</span> n = 1
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('dq5')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">first_final_uw — First Final Underwriting Date</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">new_name = 'Final Underwriting'</span><span class="tag tag-indigo" style="font-size:.67rem">row_number → n = 1</span></div>
+              </div><span id="dq5-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="dq5" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">first_final_uw <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span> * <span style="color:#89b4fa">from</span> (
+        <span style="color:#89b4fa">select</span>
+            objectid,
+            <span style="color:#89b4fa">cast</span>(createdon <span style="color:#89b4fa">as date</span>) <span style="color:#89b4fa">as</span> 1st_final_uw_mark_date,
+            old_name <span style="color:#89b4fa">as</span> old_stage, new_name <span style="color:#89b4fa">as</span> new_stage,
+            row_number() <span style="color:#89b4fa">over</span>(<span style="color:#89b4fa">partition by</span> objectid, new_value <span style="color:#89b4fa">order by</span> createdon) <span style="color:#89b4fa">as</span> n
+        <span style="color:#89b4fa">from</span> staging.dynamics.audit
+        <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+        <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span> <span style="color:#89b4fa">and</span> new_name = <span style="color:#a6e3a1">'Final Underwriting'</span>
+    ) <span style="color:#89b4fa">where</span> n = 1
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('dq6')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">before_final_uw — Stage Before Final UW</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-amber" style="font-size:.67rem">old_name = 'Final Underwriting'</span><span class="tag tag-pink" style="font-size:.67rem">new_name in 5 stages</span><span class="tag tag-indigo" style="font-size:.67rem">null → 'Post Initial UW Stage'</span></div>
+              </div><span id="dq6-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="dq6" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">before_final_uw <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span> * <span style="color:#89b4fa">from</span> (
+        <span style="color:#89b4fa">select</span>
+            <span style="color:#89b4fa">cast</span>(createdon <span style="color:#89b4fa">as date</span>) <span style="color:#89b4fa">as</span> date_stage_before_final_uw,
+            objectid, old_name <span style="color:#89b4fa">as</span> old_stage,
+            <span style="color:#89b4fa">case when</span> new_name <span style="color:#89b4fa">is null then</span> <span style="color:#a6e3a1">'Post Initial UW Stage'</span> <span style="color:#89b4fa">else</span> new_name <span style="color:#89b4fa">end as</span> new_stage,
+            row_number() <span style="color:#89b4fa">over</span>(<span style="color:#89b4fa">partition by</span> objectid, new_value <span style="color:#89b4fa">order by</span> createdon) <span style="color:#89b4fa">as</span> n
+        <span style="color:#89b4fa">from</span> staging.dynamics.audit
+        <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+        <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span>
+            <span style="color:#89b4fa">and</span> old_name = <span style="color:#a6e3a1">'Final Underwriting'</span>
+            <span style="color:#89b4fa">and</span> new_name <span style="color:#89b4fa">in</span> (<span style="color:#a6e3a1">'Conditionally Approved'</span>,<span style="color:#a6e3a1">'Processing'</span>,<span style="color:#a6e3a1">'Initial Underwrite'</span>,<span style="color:#a6e3a1">'Prelim UW'</span>,<span style="color:#a6e3a1">'Ready for Credit Pull'</span>)
+    ) <span style="color:#89b4fa">where</span> n = 1
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('dq7')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">total_final_uw_mark — Total Final UW Count</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-pink" style="font-size:.67rem">count(*) per loan</span><span class="tag tag-green" style="font-size:.67rem">new_name = 'Final Underwriting'</span><span class="tag tag-gray" style="font-size:.67rem">GROUP BY ALL</span></div>
+              </div><span id="dq7-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="dq7" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">total_final_uw_mark <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span>
+        objectid, <span style="color:#89b4fa">count</span>(*),
+        old_name <span style="color:#89b4fa">as</span> old_stage, new_name <span style="color:#89b4fa">as</span> new_stage
+    <span style="color:#89b4fa">from</span> staging.dynamics.audit
+    <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+    <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span> <span style="color:#89b4fa">and</span> new_name = <span style="color:#a6e3a1">'Final Underwriting'</span>
+    <span style="color:#89b4fa">group by all</span>
+)</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #4f46e5;border-radius:8px;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#eef2ff;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('dq8')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#4338ca">Final SELECT — Joined Output</span><span style="font-size:.72rem;color:#6366f1;margin-left:.75rem">5 LEFT JOINs</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">filter: 1st_lts_sent_date ≥ 2024-06-01</span><span class="tag tag-gray" style="font-size:.67rem">ORDER BY 1st_final_uw DESC</span></div>
+              </div><span id="dq8-icon" style="font-size:.8rem;color:#6366f1;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="dq8" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre"><span style="color:#89b4fa">select</span>
+    from_utc_timestamp(least(
+        (<span style="color:#89b4fa">select max</span>(createdon) <span style="color:#89b4fa">from</span> staging.dynamics.audit),
+        (<span style="color:#89b4fa">select max</span>(pulled_on) <span style="color:#89b4fa">from</span> staging.dynamics.term)
+    ), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> last_update,
+    cte.*,
+    fl.1st_lts_sent_date        <span style="color:#89b4fa">as</span> 1st_lts_sent,
+    fi.1st_initial_uw_mark_date <span style="color:#89b4fa">as</span> 1st_initial_uw,
+    bi.date_stage_before_initial_uw,
+    bi.new_stage                <span style="color:#89b4fa">as</span> stage_before_initial_uw,
+    ff.1st_final_uw_mark_date   <span style="color:#89b4fa">as</span> 1st_final_uw,
+    bf.date_stage_before_final_uw,
+    bf.new_stage                <span style="color:#89b4fa">as</span> stage_before_final_uw
+<span style="color:#89b4fa">from</span> cte
+<span style="color:#89b4fa">left join</span> first_lts_sent    <span style="color:#89b4fa">as</span> fl <span style="color:#89b4fa">on</span> fl.objectid = cte.guid
+<span style="color:#89b4fa">left join</span> first_initial_uw  <span style="color:#89b4fa">as</span> fi <span style="color:#89b4fa">on</span> fi.objectid = cte.guid
+<span style="color:#89b4fa">left join</span> first_final_uw    <span style="color:#89b4fa">as</span> ff <span style="color:#89b4fa">on</span> ff.objectid = cte.guid
+<span style="color:#89b4fa">left join</span> before_initial_uw <span style="color:#89b4fa">as</span> bi <span style="color:#89b4fa">on</span> bi.objectid = cte.guid
+<span style="color:#89b4fa">left join</span> before_final_uw   <span style="color:#89b4fa">as</span> bf <span style="color:#89b4fa">on</span> bf.objectid = cte.guid
+<span style="color:#89b4fa">where</span> fl.1st_lts_sent_date &gt;= <span style="color:#a6e3a1">'2024-06-01'</span>
+<span style="color:#89b4fa">order by</span> 1st_final_uw <span style="color:#89b4fa">desc</span>
+)</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Notebook Execution — After the Table is Built</div>
+          <div style="font-size:.82rem;color:#444;margin-bottom:1rem;line-height:1.65">The full query above — all 6 CTEs and the final SELECT — lives in a <strong>single notebook cell</strong>. The CTEs are shown split above for readability only. Once that one cell is run, a follow-up cell validates the output:</div>
+          <div style="margin-bottom:.75rem">
+            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem"><span style="background:#e8eaf0;color:#555;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px">Cell 1</span><span style="font-size:.78rem;color:#555;font-weight:600">Run the above table</span></div>
+            <div style="background:#1e1e2e;border-radius:8px;padding:.75rem 1rem"><pre style="font-size:.72rem;color:#9ca3af;margin:0">Run the above table</pre></div>
+            <div style="font-size:.78rem;color:#666;margin-top:.4rem">Executes the full <code>CREATE OR REPLACE TABLE marts.kpi.kpi__dscr_underwriting</code> statement.</div>
+          </div>
+          <div>
+            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem"><span style="background:#eef2ff;color:#4f46e5;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px">Cell 2</span><span style="font-size:.78rem;color:#555;font-weight:600">Validate — preview the built table</span></div>
+            <div style="background:#1e1e2e;border-radius:8px;padding:.75rem 1rem"><pre style="font-size:.72rem;color:#cdd6f4;margin:0"><span style="color:#f38ba8">%%sql</span>
+<span style="color:#89b4fa">select</span> * <span style="color:#89b4fa">from</span> marts.kpi.kpi__dscr_underwriting</pre></div>
+            <div style="font-size:.78rem;color:#666;margin-top:.4rem">Confirms rows, columns, and milestone dates are populated correctly before connecting Power BI.</div>
+          </div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Table Output Preview — 533 rows · 19 columns</div>
+          <div style="border:1px solid #e2e6f0;border-radius:8px;overflow:hidden;font-size:.73rem">
+            <div style="background:#f8f9fc;border-bottom:1px solid #e2e6f0;padding:.5rem .9rem;display:flex;justify-content:space-between;align-items:center">
+              <span style="font-weight:700;color:#1a1a2e;font-size:.78rem">Table view</span>
+              <div style="display:flex;gap:.5rem"><span style="background:#eef2ff;color:#4f46e5;border:1px solid #c7d2fe;border-radius:6px;padding:3px 10px;font-size:.69rem;font-weight:700">19 columns</span><span style="background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;border-radius:6px;padding:3px 10px;font-size:.69rem;font-weight:700">533 rows</span></div>
+            </div>
+            <div style="overflow-x:auto">
+              <table style="width:100%;border-collapse:collapse;font-size:.71rem">
+                <thead><tr style="background:#f0f1f7"><th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0">#</th><th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">last_update</th><th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">guid</th><th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0">status</th><th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">statuscodename</th><th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">deal_stage</th></tr></thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">1</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">887e54ff-3…</td><td style="padding:5px 8px"><span style="background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Open</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Final Underwriting</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">2</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">ef34eb4f-a…</td><td style="padding:5px 8px"><span style="background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Open</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Final Underwriting</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">3</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">86520e20-…</td><td style="padding:5px 8px"><span style="background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Open</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Conditionally Approved</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">4</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">f27c3613-5…</td><td style="padding:5px 8px"><span style="background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Open</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Final Underwriting</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">5</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">6ac3ccc5-7…</td><td style="padding:5px 8px"><span style="background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Open</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Final Underwriting</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">6</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">b963e49d-…</td><td style="padding:5px 8px"><span style="background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Won</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444">Closed</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">7</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">f5f6e58a-c…</td><td style="padding:5px 8px"><span style="background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Open</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Conditionally Approved</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">8</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">888a1ef1-f…</td><td style="padding:5px 8px"><span style="background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Open</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Clear To Close</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">9</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">d30f45af-c…</td><td style="padding:5px 8px"><span style="background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Open</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Conditionally Approved</td></tr>
+                  <tr><td style="padding:5px 8px;color:#999">10</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18T10:…</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">3689ff6c-c…</td><td style="padding:5px 8px"><span style="background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Open</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Clear To Close</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="padding:.5rem .9rem;background:#f8f9fc;border-top:1px solid #e2e6f0;font-size:.7rem;color:#aaa;text-align:center">Showing 10 of 533 rows · 6 of 19 columns · as of 2026-03-18</div>
+          </div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Power BI Dashboard — Output</div>
+          <div style="font-size:.82rem;color:#444;margin-bottom:.75rem;line-height:1.65">The dashboard below is fed directly by <code>marts.kpi.kpi__dscr_underwriting</code>. Filterable by Underwriter, Loan Officer, and Processor.</div>
+          <div style="border:1px solid #e2e6f0;border-radius:10px;overflow:hidden">
+            <!-- header -->
+            <div style="background:#fff;border-bottom:1px solid #e2e6f0;padding:.6rem 1rem;display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:.85rem;font-weight:700;color:#7c3aed">DSCR UW KPI Dash</span>
+              <div style="text-align:right"><div style="font-size:.72rem;color:#555;font-weight:600">3/18/2026 &nbsp;11:10:54 AM</div><div style="font-size:.67rem;color:#aaa">Last Refresh</div></div>
+            </div>
+            <!-- filters -->
+            <div style="background:#fafbff;border-bottom:1px solid #f0f1f7;padding:.5rem 1rem;display:flex;gap:1.5rem;flex-wrap:wrap">
+              <div style="font-size:.72rem;color:#555"><span style="font-weight:600;color:#333">Underwriter</span> &nbsp;<span style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:2px 8px;color:#777">All ∨</span></div>
+              <div style="font-size:.72rem;color:#555"><span style="font-weight:600;color:#333">Loan Officer</span> &nbsp;<span style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:2px 8px;color:#777">All ∨</span></div>
+              <div style="font-size:.72rem;color:#555"><span style="font-weight:600;color:#333">Processor</span> &nbsp;<span style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:2px 8px;color:#777">All ∨</span></div>
+            </div>
+            <!-- KPI cards row 1 -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #f0f1f7">
+              <div style="padding:.75rem 1.25rem;border-right:1px solid #f0f1f7">
+                <div style="display:flex;gap:1rem;margin-bottom:.4rem;flex-wrap:wrap">
+                  <span style="font-size:.65rem;color:#4f46e5;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#4f46e5;border-radius:50%;display:inline-block"></span>Initial UW Submission</span>
+                  <span style="font-size:.65rem;color:#93c5fd;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#93c5fd;border-radius:2px;display:inline-block"></span>Loan Amount</span>
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:2px;height:65px;overflow:hidden">
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:8%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:4%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:15%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:55%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:60%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:70%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:65%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:75%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:60%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:50%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:100%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:45%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:55%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:40%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:25%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:30%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:25%"></div>
+                </div>
+                <div style="font-size:.6rem;color:#aaa;text-align:center;margin-top:.2rem">Month</div>
+                <div style="font-size:1.4rem;font-weight:700;color:#1a1a2e;margin-top:.3rem">530 <span style="font-size:.7rem;font-weight:400;color:#777">Total Initial UW Submission</span></div>
+              </div>
+              <div style="padding:.75rem 1.25rem">
+                <div style="display:flex;gap:1rem;margin-bottom:.4rem;flex-wrap:wrap">
+                  <span style="font-size:.65rem;color:#4f46e5;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#4f46e5;border-radius:50%;display:inline-block"></span>Final UW Submission</span>
+                  <span style="font-size:.65rem;color:#93c5fd;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#93c5fd;border-radius:2px;display:inline-block"></span>Loan Amount</span>
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:2px;height:65px;overflow:hidden">
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:15%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:55%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:60%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:70%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:80%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:55%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:45%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:50%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:40%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:35%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:100%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:30%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:25%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:25%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:20%"></div>
+                  <div style="flex:1;background:#bfdbfe;border-radius:1px 1px 0 0;height:20%"></div>
+                </div>
+                <div style="font-size:.6rem;color:#aaa;text-align:center;margin-top:.2rem">Month</div>
+                <div style="font-size:1.4rem;font-weight:700;color:#1a1a2e;margin-top:.3rem">498 <span style="font-size:.7rem;font-weight:400;color:#777">Final UW Submission</span></div>
+              </div>
+            </div>
+            <!-- KPI cards row 2 — flip backs -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #f0f1f7">
+              <div style="padding:.75rem 1.25rem;border-right:1px solid #f0f1f7">
+                <div style="display:flex;gap:1rem;margin-bottom:.4rem;flex-wrap:wrap">
+                  <span style="font-size:.65rem;color:#4f46e5;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#4f46e5;border-radius:50%;display:inline-block"></span>Flip backs from Initial UW</span>
+                  <span style="font-size:.65rem;color:#93c5fd;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#93c5fd;border-radius:2px;display:inline-block"></span>Loan Amount</span>
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:2px;height:60px;overflow:hidden">
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:12%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:30%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:55%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:75%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:85%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:50%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:40%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:30%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:20%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:10%"></div>
+                </div>
+                <div style="font-size:.6rem;color:#aaa;text-align:center;margin-top:.2rem">Month</div>
+                <div style="font-size:1.4rem;font-weight:700;color:#1a1a2e;margin-top:.3rem">199 <span style="font-size:.7rem;font-weight:400;color:#777">Unique Flip backs from Initial UW to stages before</span></div>
+              </div>
+              <div style="padding:.75rem 1.25rem">
+                <div style="display:flex;gap:1rem;margin-bottom:.4rem;flex-wrap:wrap">
+                  <span style="font-size:.65rem;color:#4f46e5;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#4f46e5;border-radius:50%;display:inline-block"></span>Flip Back from Final UW</span>
+                  <span style="font-size:.65rem;color:#93c5fd;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#93c5fd;border-radius:2px;display:inline-block"></span>Loan Amount</span>
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:2px;height:60px;overflow:hidden">
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:55%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:70%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:85%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:75%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:50%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:45%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:55%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:100%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:35%"></div>
+                  <div style="flex:1;background:#c4b5fd;border-radius:1px 1px 0 0;height:25%"></div>
+                </div>
+                <div style="font-size:.6rem;color:#aaa;text-align:center;margin-top:.2rem">Month</div>
+                <div style="font-size:1.4rem;font-weight:700;color:#1a1a2e;margin-top:.3rem">329 <span style="font-size:.7rem;font-weight:400;color:#777">Unique Flip backs from Final UW to stages before</span></div>
+              </div>
+            </div>
+            <!-- detail table -->
+            <div style="overflow-x:auto">
+              <table style="width:100%;border-collapse:collapse;font-size:.67rem">
+                <thead>
+                  <tr style="background:#1a1a2e;color:#fff">
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">UW</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">LO</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Processor</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Address</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Target_Loan_Buyer</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left">Status</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Deal_Stage</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Closing_Date</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:right;white-space:nowrap">Loan_Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Augusto Cabangbang</td><td style="padding:4px 8px;white-space:nowrap">William Littel</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">7820 Calhoun Rd</td><td style="padding:4px 8px">Colchis</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">9/23/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$427,000</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Boris Akbashev</td><td style="padding:4px 8px;white-space:nowrap">Deborah Rosado</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">320 Lee Place</td><td style="padding:4px 8px;white-space:nowrap">Silver Hill Capital</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">3/31/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$311,500</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Boris Akbashev</td><td style="padding:4px 8px;white-space:nowrap">Deborah Rosado</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">490 10th Ave</td><td style="padding:4px 8px;white-space:nowrap">Silver Hill Capital</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">3/12/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$476,000</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Boris Akbashev</td><td style="padding:4px 8px;white-space:nowrap">William Littel</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">19 W Gate Dr</td><td style="padding:4px 8px">Verus</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">6/18/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$362,500</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Boris Akbashev</td><td style="padding:4px 8px;white-space:nowrap">William Littel</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">251 &amp; 253 Lexington Ave</td><td style="padding:4px 8px">Verus</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">5/2/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$265,000</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Boris Akbashev</td><td style="padding:4px 8px;white-space:nowrap">William Littel</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">339 Neville St</td><td style="padding:4px 8px;white-space:nowrap">Silver Hill Capital</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">5/27/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$376,000</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Boris Akbashev</td><td style="padding:4px 8px;white-space:nowrap">William Littel</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">353 Straight St</td><td style="padding:4px 8px">Blackstone</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">6/30/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$453,000</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Boris Akbashev</td><td style="padding:4px 8px;white-space:nowrap">William Littel</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">462 &amp; 464 E 26th St</td><td style="padding:4px 8px">Verus</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">4/9/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$330,000</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Boris Akbashev</td><td style="padding:4px 8px;white-space:nowrap">William Littel</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">49 Van Winkle Ave</td><td style="padding:4px 8px">Blackstone</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">5/16/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$330,000</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Boris Akbashev</td><td style="padding:4px 8px;white-space:nowrap">William Littel</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">537 &amp; 539 E 27th St</td><td style="padding:4px 8px">ABL DSCR I</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">11/28/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$524,300</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">Cameron Mozingo</td><td style="padding:4px 8px;white-space:nowrap">Natasha Latimore</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">4712 Trail Lake Dr</td><td style="padding:4px 8px">Blackstone</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">1/15/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$194,040</td></tr>
+                  <tr style="background:#fafbff"><td style="padding:4px 8px;white-space:nowrap">Ashley Espinosa</td><td style="padding:4px 8px;white-space:nowrap">David LaBorde</td><td style="padding:4px 8px;white-space:nowrap">Alicia Vautier</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">13-15 Freeman Ave</td><td style="padding:4px 8px;white-space:nowrap">Silver Hill Capital</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">10/16/2025</td><td style="padding:4px 8px;text-align:right;filter:blur(4px);user-select:none">$213,000</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="padding:.5rem .9rem;background:#f8f9fc;border-top:1px solid #e2e6f0;font-size:.7rem;color:#aaa;text-align:center">Dashboard snapshot as of 3/18/2026 · Filters: Underwriter, Loan Officer, Processor</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /dash1 -->
+
+  <!-- DASHBOARD 2 -->
+  <div id="dash2" style="display:none">
+    <div class="report-card">
+      <div class="rc-header" onclick="toggleCard(this)">
+        <div>
+          <div class="rc-title-group">
+            <span class="rc-title">DSCR Target Loan Buyer Changer Dash</span>
+            <span class="freq-badge freq-live">Live / Always-on</span>
+          </div>
+          <div class="rc-meta">DSCR UW Team · Power BI · Backed by <code>marts.operations.operations__buyer_audit_data</code></div>
+        </div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="rc-body show">
+        <div class="callout">This dashboard tracks every instance where the Target Loan Buyer on a DSCR loan was changed — showing when the change happened, who made it, and what the buyer was changed from and to. Powered by a single SQL mart table built in Databricks, connected to Power BI via <code>SELECT * FROM marts.operations.operations__buyer_audit_data</code>.</div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">How It Was Built — Two-Step Approach</div>
+          <div class="report-sections-grid">
+            <div class="rs-card" style="border-left-color:#4f46e5"><div class="rs-title" style="color:#4f46e5">Step 1 — Build the SQL Mart Table</div><div class="rs-body">Mahfuz wrote a single SQL query (147 lines, 5 CTEs) as a <code>CREATE OR REPLACE TABLE</code> statement pulling from <code>staging.dynamics.term</code>, <code>staging.dynamics.audit</code>, and <code>staging.facts.user</code>.</div></div>
+            <div class="rs-card" style="border-left-color:#059669"><div class="rs-title" style="color:#059669">Step 2 — Connect Power BI</div><div class="rs-body">Once live, Power BI was pointed at it with:<br><br><code style="background:#f0fdf4;padding:3px 8px;border-radius:4px;font-size:.8rem">SELECT * FROM marts.operations.operations__buyer_audit_data</code></div></div>
+          </div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Purpose &amp; Overview</div>
+          <div class="sec-content">Surfaces every Target Loan Buyer change on DSCR loans — who changed it, when, what it was changed from and to. Enriched with processor assignment history, UW assignment counts and dates, processing stage dates, and conditional approval dates.</div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Tools &amp; Stack</div>
+          <div class="tools-row">
+            <span class="tool-pill tool-sql">Databricks SQL</span>
+            <span class="tool-pill tool-crm">Dynamics CRM (staging layer)</span>
+            <span class="tool-pill tool-pbi">Power BI</span>
+          </div>
+          <div style="font-size:.8rem;color:#555;margin-top:.75rem;line-height:1.7"><strong>Target table:</strong> <code>marts.operations.operations__buyer_audit_data</code><br><strong>Source tables:</strong> <code>staging.dynamics.term</code> · <code>staging.dynamics.audit</code> · <code>staging.facts.user</code></div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">CTE Architecture</div>
+          <div class="cte-flow">
+            <div class="cte-node">cte</div><span class="cte-arrow">→</span>
+            <div class="cte-node">target_loan_buyer</div><span class="cte-arrow">→</span>
+            <div class="cte-node">processor</div><span class="cte-arrow">→</span>
+            <div class="cte-node">moved_to_processing</div><span class="cte-arrow">→</span>
+            <div class="cte-node">uw_date</div><span class="cte-arrow">→</span>
+            <div class="cte-node">cond_approved_date</div><span class="cte-arrow">→</span>
+            <div class="cte-node cte-node-final">Final SELECT</div>
+          </div>
+          <div style="font-size:.78rem;color:#666;margin-top:.5rem">Audit-log CTEs use <code>count(*)</code>, <code>min(createdon)</code>, and <code>max(createdon)</code> grouped by loan. All 5 CTEs run as one single cell in Databricks — shown split below for readability only.</div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">SQL — Full Query</div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('bq1')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">cte — Base Loan Population</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.term · lines 1–35</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-indigo" style="font-size:.67rem">Won: closing_date ≥ 2025-01-01</span><span class="tag tag-green" style="font-size:.67rem">Active pipeline: 5 stages</span><span class="tag tag-amber" style="font-size:.67rem">Lost: createdon ≥ 2025-01-01</span></div>
+              </div><span id="bq1-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="bq1" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre"><span style="color:#f38ba8">%%sql</span>
+<span style="color:#89b4fa">create or replace table</span> marts.operations.operations__buyer_audit_data <span style="color:#89b4fa">as</span> (
+<span style="color:#89b4fa">with</span> cte <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span>
+        new_termloanid          <span style="color:#89b4fa">as</span> guid,
+        new_statusname          <span style="color:#89b4fa">as</span> status,
+        statuscodename,
+        new_activedealstage name <span style="color:#89b4fa">as</span> deal_stage,
+        new_subject             <span style="color:#89b4fa">as</span> subject,
+        new_totalloanamount     <span style="color:#89b4fa">as</span> loan_amount,
+        new_processorname       <span style="color:#89b4fa">as</span> processor,
+        <span style="color:#89b4fa">cast</span>(new_trueclosingdate <span style="color:#89b4fa">as date</span>) <span style="color:#89b4fa">as</span> closing_date
+    <span style="color:#89b4fa">from</span> staging.dynamics.term
+    <span style="color:#89b4fa">where</span>
+        (new_statusname = <span style="color:#a6e3a1">'Won'</span> <span style="color:#89b4fa">and</span> new_trueclosingdate &gt;= <span style="color:#a6e3a1">'2025-01-01'</span>)
+        <span style="color:#89b4fa">or</span> (statuscodename != <span style="color:#a6e3a1">'Inactive'</span> <span style="color:#89b4fa">and</span> new_statusname != <span style="color:#a6e3a1">'Lost'</span>
+            <span style="color:#89b4fa">and</span> new_activedealstage name <span style="color:#89b4fa">in</span> (<span style="color:#a6e3a1">'Processing'</span>,<span style="color:#a6e3a1">'Initial Underwriting'</span>,
+                <span style="color:#a6e3a1">'Conditionally Approved'</span>,<span style="color:#a6e3a1">'Final Underwriting'</span>,<span style="color:#a6e3a1">'Clear To Close'</span>))
+        <span style="color:#89b4fa">or</span> (new_statusname = <span style="color:#a6e3a1">'Lost'</span> <span style="color:#89b4fa">and</span> <span style="color:#89b4fa">cast</span>(createdon <span style="color:#89b4fa">as date</span>) &gt;= <span style="color:#a6e3a1">'2025-01-01'</span>)
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('bq2')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">target_loan_buyer — Buyer Change History</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit · lines 37–53</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">logical_name = 'new_targetloanbuyer'</span><span class="tag tag-indigo" style="font-size:.67rem">old_name is not null</span><span class="tag tag-pink" style="font-size:.67rem">captures buyer_changed_by</span></div>
+              </div><span id="bq2-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="bq2" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">target_loan_buyer <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span>
+        objectid,
+        from_utc_timestamp(<span style="color:#89b4fa">cast</span>(createdon <span style="color:#89b4fa">as date</span>), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> buyer_change_date,
+        old_name   <span style="color:#89b4fa">as</span> old_buyer,
+        new_name   <span style="color:#89b4fa">as</span> new_buyer,
+        userid     <span style="color:#89b4fa">as</span> system_user_id,
+        useridname <span style="color:#89b4fa">as</span> buyer_changed_by
+    <span style="color:#89b4fa">from</span> staging.dynamics.audit
+    <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+    <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span>
+        <span style="color:#89b4fa">and</span> logical_name = <span style="color:#a6e3a1">'new_targetloanbuyer'</span>
+        <span style="color:#89b4fa">and</span> old_name <span style="color:#89b4fa">is not null</span>
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('bq3')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">processor — Processor Assignment History</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit · lines 55–68</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">logical_name = 'new_processor'</span><span class="tag tag-pink" style="font-size:.67rem">count(*) · min/max createdon</span><span class="tag tag-gray" style="font-size:.67rem">GROUP BY ALL</span></div>
+              </div><span id="bq3-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="bq3" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">processor <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span>
+        objectid,
+        <span style="color:#89b4fa">count</span>(*) <span style="color:#89b4fa">as</span> processor_assignment_count,
+        from_utc_timestamp(<span style="color:#89b4fa">cast</span>(<span style="color:#89b4fa">min</span>(createdon) <span style="color:#89b4fa">as date</span>), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> processor_first_assigned_date,
+        from_utc_timestamp(<span style="color:#89b4fa">cast</span>(<span style="color:#89b4fa">max</span>(createdon) <span style="color:#89b4fa">as date</span>), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> processor_last_assigned_date
+    <span style="color:#89b4fa">from</span> staging.dynamics.audit
+    <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+    <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span> <span style="color:#89b4fa">and</span> logical_name = <span style="color:#a6e3a1">'new_processor'</span>
+    <span style="color:#89b4fa">group by all</span>
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('bq4')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">moved_to_processing — Processing Stage Dates</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit · lines 70–83</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">logical_name = 'new_movedtoprocessingdate'</span><span class="tag tag-pink" style="font-size:.67rem">count(*) · min/max createdon</span></div>
+              </div><span id="bq4-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="bq4" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">moved_to_processing <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span>
+        objectid,
+        <span style="color:#89b4fa">count</span>(*) <span style="color:#89b4fa">as</span> moved_to_processing_count,
+        from_utc_timestamp(<span style="color:#89b4fa">cast</span>(<span style="color:#89b4fa">min</span>(createdon) <span style="color:#89b4fa">as date</span>), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> first_moved_to_processing_date,
+        from_utc_timestamp(<span style="color:#89b4fa">cast</span>(<span style="color:#89b4fa">max</span>(createdon) <span style="color:#89b4fa">as date</span>), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> last_moved_to_processing_date
+    <span style="color:#89b4fa">from</span> staging.dynamics.audit
+    <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+    <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span> <span style="color:#89b4fa">and</span> logical_name = <span style="color:#a6e3a1">'new_movedtoprocessingdate'</span>
+    <span style="color:#89b4fa">group by all</span>
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('bq5')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">uw_date — UW Assignment Dates</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit · lines 85–98</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">logical_name = 'new_precloseinteraldate'</span><span class="tag tag-pink" style="font-size:.67rem">count(*) · min/max createdon</span></div>
+              </div><span id="bq5-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="bq5" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">uw_date <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span>
+        objectid,
+        <span style="color:#89b4fa">count</span>(*) <span style="color:#89b4fa">as</span> uw_assignments,
+        from_utc_timestamp(<span style="color:#89b4fa">cast</span>(<span style="color:#89b4fa">min</span>(createdon) <span style="color:#89b4fa">as date</span>), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> uw_first_assigned_date,
+        from_utc_timestamp(<span style="color:#89b4fa">cast</span>(<span style="color:#89b4fa">max</span>(createdon) <span style="color:#89b4fa">as date</span>), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> uw_last_assigned_date
+    <span style="color:#89b4fa">from</span> staging.dynamics.audit
+    <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+    <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span> <span style="color:#89b4fa">and</span> logical_name = <span style="color:#a6e3a1">'new_precloseinteraldate'</span>
+    <span style="color:#89b4fa">group by all</span>
+),</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:8px;margin-bottom:.75rem;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#f8f9fc;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('bq6')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#1a1a2e">cond_approved_date — Conditional Approval Dates</span><span style="font-size:.72rem;color:#888;margin-left:.75rem">staging.dynamics.audit · lines 100–113</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">logical_name = 'new_preclosereviewdate'</span><span class="tag tag-pink" style="font-size:.67rem">count(*) · min/max createdon</span></div>
+              </div><span id="bq6-icon" style="font-size:.8rem;color:#aaa;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="bq6" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre">cond_approved_date <span style="color:#89b4fa">as</span> (
+    <span style="color:#89b4fa">select</span>
+        objectid,
+        <span style="color:#89b4fa">count</span>(*) <span style="color:#89b4fa">as</span> cond_approved_count,
+        from_utc_timestamp(<span style="color:#89b4fa">cast</span>(<span style="color:#89b4fa">min</span>(createdon) <span style="color:#89b4fa">as date</span>), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> first_cond_approved_date,
+        from_utc_timestamp(<span style="color:#89b4fa">cast</span>(<span style="color:#89b4fa">max</span>(createdon) <span style="color:#89b4fa">as date</span>), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> last_cond_approved_date
+    <span style="color:#89b4fa">from</span> staging.dynamics.audit
+    <span style="color:#89b4fa">inner join</span> cte <span style="color:#89b4fa">on</span> cte.guid = audit.objectid
+    <span style="color:#89b4fa">where</span> objecttypecode = <span style="color:#a6e3a1">'new_termloan'</span> <span style="color:#89b4fa">and</span> logical_name = <span style="color:#a6e3a1">'new_preclosereviewdate'</span>
+    <span style="color:#89b4fa">group by all</span>
+)</pre>
+            </div>
+          </div>
+
+          <div style="border:1px solid #4f46e5;border-radius:8px;overflow:hidden">
+            <div style="padding:.75rem 1rem;background:#eef2ff;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleQuery('bq7')">
+              <div><span style="font-size:.82rem;font-weight:700;color:#4338ca">Final SELECT — Joined Output</span><span style="font-size:.72rem;color:#6366f1;margin-left:.75rem">6 LEFT JOINs incl. staging.facts.user</span>
+                <div style="display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap"><span class="tag tag-green" style="font-size:.67rem">joins user for title &amp; department</span><span class="tag tag-gray" style="font-size:.67rem">ORDER BY buyer_change_date DESC, subject</span></div>
+              </div><span id="bq7-icon" style="font-size:.8rem;color:#6366f1;flex-shrink:0">▼ View code</span>
+            </div>
+            <div id="bq7" style="display:none;padding:.75rem 1rem;background:#1e1e2e;overflow-x:auto">
+              <pre style="font-size:.72rem;color:#cdd6f4;line-height:1.7;margin:0;white-space:pre"><span style="color:#89b4fa">select</span>
+    from_utc_timestamp(least(
+        (<span style="color:#89b4fa">select max</span>(createdon) <span style="color:#89b4fa">from</span> staging.dynamics.audit),
+        (<span style="color:#89b4fa">select max</span>(pulled_on) <span style="color:#89b4fa">from</span> staging.dynamics.term)
+    ), <span style="color:#a6e3a1">'America/New_York'</span>) <span style="color:#89b4fa">as</span> last_update,
+    user.title, user.department,
+    cte.*, tlb.*,
+    pr.processor_first_assigned_date,
+    moved_to_processing.first_moved_to_processing_date <span style="color:#89b4fa">as</span> moved_to_processing_date,
+    uw_date.uw_assignments                             <span style="color:#89b4fa">as</span> uw_change_count,
+    uw_date.uw_first_assigned_date                     <span style="color:#89b4fa">as</span> initial_uw_first_assigned_date,
+    cond_approved_date.first_cond_approved_date        <span style="color:#89b4fa">as</span> cond_approved_first_date
+<span style="color:#89b4fa">from</span> cte
+<span style="color:#89b4fa">left join</span> target_loan_buyer   <span style="color:#89b4fa">as</span> tlb <span style="color:#89b4fa">on</span> tlb.objectid               = cte.guid
+<span style="color:#89b4fa">left join</span> processor           <span style="color:#89b4fa">as</span> pr  <span style="color:#89b4fa">on</span> pr.objectid                = cte.guid
+<span style="color:#89b4fa">left join</span> uw_date                    <span style="color:#89b4fa">on</span> uw_date.objectid            = cte.guid
+<span style="color:#89b4fa">left join</span> cond_approved_date         <span style="color:#89b4fa">on</span> cond_approved_date.objectid  = cte.guid
+<span style="color:#89b4fa">left join</span> moved_to_processing        <span style="color:#89b4fa">on</span> moved_to_processing.objectid = cte.guid
+<span style="color:#89b4fa">left join</span> staging.facts.user         <span style="color:#89b4fa">on</span> tlb.system_user_id           = user.dynamics_id
+<span style="color:#89b4fa">order by</span> tlb.buyer_change_date <span style="color:#89b4fa">desc</span>, cte.subject
+)</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Notebook Execution — After the Table is Built</div>
+          <div style="font-size:.82rem;color:#444;margin-bottom:1rem;line-height:1.65">The full query lives in a <strong>single notebook cell</strong>. Once run, a follow-up cell validates the output:</div>
+          <div style="margin-bottom:.75rem">
+            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem"><span style="background:#e8eaf0;color:#555;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px">Cell 1</span><span style="font-size:.78rem;color:#555;font-weight:600">Run the above table</span></div>
+            <div style="background:#1e1e2e;border-radius:8px;padding:.75rem 1rem"><pre style="font-size:.72rem;color:#9ca3af;margin:0">Run the above table</pre></div>
+            <div style="font-size:.78rem;color:#666;margin-top:.4rem">Executes the full <code>CREATE OR REPLACE TABLE marts.operations.operations__buyer_audit_data</code> statement.</div>
+          </div>
+          <div>
+            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem"><span style="background:#eef2ff;color:#4f46e5;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px">Cell 2</span><span style="font-size:.78rem;color:#555;font-weight:600">Validate — preview the built table</span></div>
+            <div style="background:#1e1e2e;border-radius:8px;padding:.75rem 1rem"><pre style="font-size:.72rem;color:#cdd6f4;margin:0"><span style="color:#f38ba8">%%sql</span>
+<span style="color:#89b4fa">select</span> *
+<span style="color:#89b4fa">from</span> marts.operations.operations__buyer_audit_data</pre></div>
+            <div style="font-size:.78rem;color:#666;margin-top:.4rem;line-height:1.6">Runs a quick <code>SELECT *</code> to confirm rows, columns, and buyer change records are populated correctly before connecting Power BI.</div>
+          </div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Table Output Preview — 1,000 rows · 22 columns</div>
+          <div style="font-size:.82rem;color:#444;margin-bottom:.75rem;line-height:1.65">The built table returns <strong>1,000 rows</strong> and <strong>22 columns</strong>. Below is a preview of the first rows as seen in the Databricks Table view after running the query.</div>
+          <div style="border:1px solid #e2e6f0;border-radius:8px;overflow:hidden;font-size:.73rem">
+            <div style="background:#f8f9fc;border-bottom:1px solid #e2e6f0;padding:.5rem .9rem;display:flex;justify-content:space-between;align-items:center">
+              <span style="font-weight:700;color:#1a1a2e;font-size:.78rem">Table view</span>
+              <div style="display:flex;gap:.5rem">
+                <span style="background:#eef2ff;color:#4f46e5;border:1px solid #c7d2fe;border-radius:6px;padding:3px 10px;font-size:.69rem;font-weight:700">22 columns</span>
+                <span style="background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;border-radius:6px;padding:3px 10px;font-size:.69rem;font-weight:700">1,000 rows</span>
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table style="width:100%;border-collapse:collapse;font-size:.71rem">
+                <thead>
+                  <tr style="background:#f0f1f7">
+                    <th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0">#</th>
+                    <th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">last_update</th>
+                    <th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">title</th>
+                    <th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">department</th>
+                    <th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">guid</th>
+                    <th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0">status</th>
+                    <th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">statuscodename</th>
+                    <th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0;white-space:nowrap">deal_stage</th>
+                    <th style="padding:6px 8px;color:#888;font-weight:600;text-align:left;border-bottom:1px solid #e2e6f0">subject</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">1</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">8aba7cf7-a…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444">On Hold</td><td style="padding:5px 8px;color:#444">21504 Coyote Trail</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">2</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Senior Capital Markets Analyst</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">0f45ea46-7…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444">On Hold</td><td style="padding:5px 8px;color:#444">1200 17th St</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">3</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">e1eb1538-f…</td><td style="padding:5px 8px"><span style="background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Won</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444">Closed</td><td style="padding:5px 8px;color:#444">1 E Thompson Ave</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">4</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">76e64ca2-…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444">On Hold</td><td style="padding:5px 8px;color:#444;font-size:.68rem">102 Oakcrest Circle Unit 5…</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">5</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">c940b599-…</td><td style="padding:5px 8px"><span style="background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Won</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444">Closed</td><td style="padding:5px 8px;color:#444">102 Sherman St</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">6</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">fc992c86-c…</td><td style="padding:5px 8px"><span style="background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Won</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444">Closed</td><td style="padding:5px 8px;color:#444">1113 E Oleander St</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">7</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">14647c5e-…</td><td style="padding:5px 8px"><span style="background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Won</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444">Closed</td><td style="padding:5px 8px;color:#444">1171 Goodwin Rd NE</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">8</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">d67309ae-…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Term Sheet Sent</td><td style="padding:5px 8px;color:#444">144 N Dearborn St</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">9</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">f855551a-2…</td><td style="padding:5px 8px"><span style="background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Won</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444">Closed</td><td style="padding:5px 8px;color:#444">154 South Broadway</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">10</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">9d96ce42-…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Term Sheet Sent</td><td style="padding:5px 8px;color:#444">19 Fairview Pl</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">11</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">972bb44d-…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444">On Hold</td><td style="padding:5px 8px;color:#444">3712 Bryn Mawr Dr NE</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">12</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">5b8ca2c3-…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Processing - Needs Restructure</td><td style="padding:5px 8px;color:#444">3876 W 17th St</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">13</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">c4ead83c-…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Term Sheet Sent</td><td style="padding:5px 8px;color:#444">7 Bohl Ave</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">14</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">e303ac93-…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444">On Hold</td><td style="padding:5px 8px;color:#444">7940 S. Paxton Avenue</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:5px 8px;color:#999">15</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">072c764d-…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Term Sheet Sent</td><td style="padding:5px 8px;color:#444">816 Elmwood Ln</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:5px 8px;color:#999">16</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Cap. Markets &amp; Treasury, AVP I</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">ce6008d0-…</td><td style="padding:5px 8px"><span style="background:#fce7f3;color:#9d174d;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Lost</span></td><td style="padding:5px 8px;color:#444">Inactive</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Term Sheet Sent</td><td style="padding:5px 8px;color:#444">8246 Montreal Drive</td></tr>
+                  <tr><td style="padding:5px 8px;color:#999">17</td><td style="padding:5px 8px;color:#555;white-space:nowrap">2026-03-18…</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Senior Capital Markets Analyst</td><td style="padding:5px 8px;color:#444;white-space:nowrap">Capital Markets</td><td style="padding:5px 8px;font-family:monospace;color:#4f46e5;white-space:nowrap">728aeab1-…</td><td style="padding:5px 8px"><span style="background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:10px;font-size:.67rem;font-weight:600">Won</span></td><td style="padding:5px 8px;color:#444">Active</td><td style="padding:5px 8px;color:#444">Closed</td><td style="padding:5px 8px;color:#444">1103 City Hike Ct</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="padding:.5rem .9rem;background:#f8f9fc;border-top:1px solid #e2e6f0;font-size:.7rem;color:#aaa;text-align:center">Showing 17 of 1,000 rows · 9 of 22 columns shown · as of 2026-03-18</div>
+          </div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Power BI Dashboard — Output</div>
+          <div style="font-size:.82rem;color:#444;margin-bottom:.75rem;line-height:1.65">The dashboard below is fed directly by <code>marts.operations.operations__buyer_audit_data</code>. It shows every buyer change event with full loan context, filterable by Department, Buyer Changer, Status, and Buyer Change Date.</div>
+
+          <div style="border:1px solid #e2e6f0;border-radius:10px;overflow:hidden">
+            <!-- header -->
+            <div style="background:#fff;border-bottom:1px solid #e2e6f0;padding:.6rem 1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
+              <span style="font-size:.85rem;font-weight:700;color:#7c3aed">DSCR Target Loan Buyer Changer Dash</span>
+              <div style="text-align:right">
+                <div style="font-size:.72rem;color:#555;font-weight:600">3/18/2026 &nbsp;2:11 PM</div>
+                <div style="font-size:.67rem;color:#aaa">Last Refresh</div>
+              </div>
+            </div>
+
+            <!-- filters row -->
+            <div style="background:#fafbff;border-bottom:1px solid #f0f1f7;padding:.6rem 1rem;display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+              <!-- left: department filter -->
+              <div>
+                <div style="font-size:.68rem;font-weight:700;color:#555;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.5px">Department</div>
+                <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                  <span style="background:#4f46e5;color:#fff;border-radius:4px;padding:3px 10px;font-size:.7rem;font-weight:600">Capital Markets</span>
+                  <span style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;border-radius:4px;padding:3px 10px;font-size:.7rem;font-weight:600">Legal</span>
+                  <span style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;border-radius:4px;padding:3px 10px;font-size:.7rem;font-weight:600">Operations</span>
+                  <span style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;border-radius:4px;padding:3px 10px;font-size:.7rem;font-weight:600">Sales</span>
+                  <span style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;border-radius:4px;padding:3px 10px;font-size:.7rem;font-weight:600">Underwriting</span>
+                </div>
+              </div>
+              <!-- right: buyer changer + status + date filters -->
+              <div style="display:flex;flex-direction:column;gap:.4rem">
+                <div style="display:flex;gap:1rem;flex-wrap:wrap">
+                  <div>
+                    <div style="font-size:.68rem;font-weight:700;color:#555;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.5px">Buyer Changer</div>
+                    <span style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:2px 10px;font-size:.7rem;color:#777">All ∨</span>
+                  </div>
+                  <div>
+                    <div style="font-size:.68rem;font-weight:700;color:#555;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.5px">Status</div>
+                    <span style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:2px 10px;font-size:.7rem;color:#777">All ∨</span>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:.68rem;font-weight:700;color:#555;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.5px">Buyer Change Date</div>
+                  <div style="display:flex;gap:.5rem">
+                    <label style="font-size:.7rem;color:#555;display:flex;align-items:center;gap:4px"><input type="checkbox" checked disabled> 2025</label>
+                    <label style="font-size:.7rem;color:#555;display:flex;align-items:center;gap:4px"><input type="checkbox" checked disabled> 2024</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- drill-down table -->
+            <div style="overflow-x:auto;border-bottom:1px solid #f0f1f7">
+              <table style="width:100%;border-collapse:collapse;font-size:.67rem">
+                <thead>
+                  <tr style="background:#1a1a2e;color:#fff">
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Department</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Buyer Changer</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Buyer Changer Date</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Old Buyer</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">New Buyer</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Address</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left">Status</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Deal Stage</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left;white-space:nowrap">Closing Date</th>
+                    <th style="padding:5px 8px;font-weight:600;text-align:left">Processor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Capital Markets</td><td style="padding:4px 8px;white-space:nowrap">Lawrence Lema…</td><td style="padding:4px 8px;white-space:nowrap">12/16/2025</td><td style="padding:4px 8px">Blackstone</td><td style="padding:4px 8px">ABL DSCR I</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">21504 Coyote Trail</td><td style="padding:4px 8px"><span style="background:#fce7f3;color:#9d174d;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Lost</span></td><td style="padding:4px 8px">On Hold</td><td style="padding:4px 8px"></td><td style="padding:4px 8px;white-space:nowrap">Alicia Vautier</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:4px 8px;white-space:nowrap">Capital Markets</td><td style="padding:4px 8px;white-space:nowrap">Corry Arnold</td><td style="padding:4px 8px;white-space:nowrap">12/16/2025</td><td style="padding:4px 8px;white-space:nowrap">Silver Hill Capital</td><td style="padding:4px 8px">ABL DSCR I</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">1200 17th St</td><td style="padding:4px 8px"><span style="background:#fce7f3;color:#9d174d;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Lost</span></td><td style="padding:4px 8px">On Hold</td><td style="padding:4px 8px"></td><td style="padding:4px 8px;white-space:nowrap">William Littel</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Capital Markets</td><td style="padding:4px 8px;white-space:nowrap">Lawrence Lema…</td><td style="padding:4px 8px;white-space:nowrap">11/30/2025</td><td style="padding:4px 8px">Blackstone</td><td style="padding:4px 8px">ABL DSCR I</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">1 E Thompson Ave</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">6/26/2026</td><td style="padding:4px 8px;white-space:nowrap">William Littel</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:4px 8px;white-space:nowrap">Capital Markets</td><td style="padding:4px 8px;white-space:nowrap">Lawrence Lema…</td><td style="padding:4px 8px;white-space:nowrap">11/30/2025</td><td style="padding:4px 8px">Blackstone</td><td style="padding:4px 8px">ABL DSCR I</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap;font-size:.65rem">102 Oakcrest Circle Unit 5…</td><td style="padding:4px 8px"><span style="background:#fce7f3;color:#9d174d;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Lost</span></td><td style="padding:4px 8px">On Hold</td><td style="padding:4px 8px;white-space:nowrap">1/20/2026</td><td style="padding:4px 8px;white-space:nowrap">Natasha Latimore</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Capital Markets</td><td style="padding:4px 8px;white-space:nowrap">Lawrence Lema…</td><td style="padding:4px 8px;white-space:nowrap">11/30/2025</td><td style="padding:4px 8px">Blackstone</td><td style="padding:4px 8px">ABL DSCR I</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">102 Sherman St</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">12/19/2025</td><td style="padding:4px 8px;white-space:nowrap">Alicia Vautier</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7;background:#fafbff"><td style="padding:4px 8px;white-space:nowrap">Capital Markets</td><td style="padding:4px 8px;white-space:nowrap">Lawrence Lema…</td><td style="padding:4px 8px;white-space:nowrap">11/30/2025</td><td style="padding:4px 8px">Blackstone</td><td style="padding:4px 8px">ABL DSCR I</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">1113 E Oleander St</td><td style="padding:4px 8px"><span style="background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Won</span></td><td style="padding:4px 8px">Closed</td><td style="padding:4px 8px;white-space:nowrap">1/8/2026</td><td style="padding:4px 8px;white-space:nowrap">Natasha Latimore</td></tr>
+                  <tr style="border-bottom:1px solid #f0f1f7"><td style="padding:4px 8px;white-space:nowrap">Capital Markets</td><td style="padding:4px 8px;white-space:nowrap">Lawrence Lema…</td><td style="padding:4px 8px;white-space:nowrap">11/30/2025</td><td style="padding:4px 8px">Blackstone</td><td style="padding:4px 8px">ABL DSCR I</td><td style="padding:4px 8px;color:#4f46e5;text-decoration:underline;white-space:nowrap">144 N Dearborn St</td><td style="padding:4px 8px"><span style="background:#fce7f3;color:#9d174d;padding:1px 6px;border-radius:8px;font-size:.63rem;font-weight:600">Lost</span></td><td style="padding:4px 8px;white-space:nowrap">Term Sheet Sent</td><td style="padding:4px 8px"></td><td style="padding:4px 8px;white-space:nowrap">William Littel</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- bar chart area -->
+            <div style="padding:.9rem 1rem;background:#fff">
+              <div style="display:flex;gap:1rem;margin-bottom:.6rem;flex-wrap:wrap;align-items:center">
+                <span style="font-size:.68rem;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px">Buyer Change Frequency by Month</span>
+              </div>
+              <div style="display:flex;gap:.5rem;margin-bottom:.4rem;flex-wrap:wrap">
+                <span style="font-size:.65rem;color:#4f46e5;display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;background:#4f46e5;border-radius:2px;display:inline-block"></span>Capital Markets</span>
+                <span style="font-size:.65rem;color:#059669;display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;background:#059669;border-radius:2px;display:inline-block"></span>Legal</span>
+                <span style="font-size:.65rem;color:#7c3aed;display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;background:#7c3aed;border-radius:2px;display:inline-block"></span>Operations</span>
+                <span style="font-size:.65rem;color:#db2777;display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;background:#db2777;border-radius:2px;display:inline-block"></span>Sales</span>
+                <span style="font-size:.65rem;color:#d97706;display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;background:#d97706;border-radius:2px;display:inline-block"></span>Underwriting</span>
+              </div>
+              <!-- bar chart -->
+              <div style="display:flex;align-items:flex-end;gap:4px;height:100px;padding:0 4px">
+                <!-- Sep 2024 -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:10%;border-radius:2px 2px 0 0"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Sep<br>2024</div>
+                </div>
+                <!-- Oct -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:6%;border-radius:2px 2px 0 0"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Oct</div>
+                </div>
+                <!-- Nov -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:55%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#7c3aed;height:3%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Nov</div>
+                </div>
+                <!-- Dec 2024 -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:4%;border-radius:2px 2px 0 0"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Dec<br>2024</div>
+                </div>
+                <!-- Jan 2025 -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:50%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#7c3aed;height:3%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Jan</div>
+                </div>
+                <!-- Feb -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:58%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#db2777;height:5%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Feb</div>
+                </div>
+                <!-- Mar -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:82%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#db2777;height:5%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Mar</div>
+                </div>
+                <!-- Apr -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:50%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#7c3aed;height:3%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Apr</div>
+                </div>
+                <!-- May -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:70%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#db2777;height:5%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">May</div>
+                </div>
+                <!-- Jun -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:66%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#db2777;height:3%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Jun</div>
+                </div>
+                <!-- Jul -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:100%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#db2777;height:5%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Jul</div>
+                </div>
+                <!-- Aug -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:22%;border-radius:2px 2px 0 0"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Aug</div>
+                </div>
+                <!-- Sep 2025 -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:5%;border-radius:2px 2px 0 0"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Sep<br>2025</div>
+                </div>
+                <!-- Oct -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:30%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#d97706;height:5%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Oct</div>
+                </div>
+                <!-- Nov -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:22%;border-radius:2px 2px 0 0"></div>
+                    <div style="background:#d97706;height:3%"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Nov</div>
+                </div>
+                <!-- Dec 2025 -->
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                  <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:90px;gap:1px">
+                    <div style="background:#4f46e5;height:18%;border-radius:2px 2px 0 0"></div>
+                  </div>
+                  <div style="font-size:.55rem;color:#aaa;margin-top:2px;white-space:nowrap">Dec<br>2025</div>
+                </div>
+              </div>
+              <div style="font-size:.63rem;color:#aaa;text-align:center;margin-top:.3rem">Month</div>
+            </div>
+
+            <div style="padding:.5rem .9rem;background:#f8f9fc;border-top:1px solid #e2e6f0;font-size:.7rem;color:#aaa;text-align:center">Dashboard snapshot as of 3/18/2026 · Filters: Department, Buyer Changer, Status, Buyer Change Date</div>
+          </div>
+        </div>
+
+        <div class="sec-box sec">
+          <div class="sec-label">Output Columns — Field Reference</div>
+          <table class="ds-table">
+            <thead><tr><th>Column</th><th>Source CTE</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>last_update</code></td><td>Final SELECT</td><td>ET timestamp — <code>least(max audit.createdon, max term.pulled_on)</code></td></tr>
+              <tr><td><code>title, department</code></td><td>staging.facts.user</td><td>Title and department of the user who made the buyer change</td></tr>
+              <tr><td><code>guid, status, deal_stage, subject, loan_amount, processor, closing_date</code></td><td>cte</td><td>Core loan fields from <code>staging.dynamics.term</code></td></tr>
+              <tr><td><code>buyer_change_date, old_buyer, new_buyer, system_user_id, buyer_changed_by</code></td><td>target_loan_buyer</td><td>Full buyer change event — when, from, to, and by whom</td></tr>
+              <tr><td><code>processor_first_assigned_date</code></td><td>processor</td><td>Date processor was first assigned to the loan</td></tr>
+              <tr><td><code>moved_to_processing_date</code></td><td>moved_to_processing</td><td>First date loan was moved to Processing stage</td></tr>
+              <tr><td><code>uw_change_count</code></td><td>uw_date</td><td>Total number of UW assignments on the loan</td></tr>
+              <tr><td><code>initial_uw_first_assigned_date</code></td><td>uw_date</td><td>Date UW was first assigned</td></tr>
+              <tr><td><code>cond_approved_first_date</code></td><td>cond_approved_date</td><td>Date loan first reached Conditionally Approved</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /dash2 -->
+
+</div><!-- /tab-dashboards -->
+
+
+<!-- ████ TOOLS TAB ████ -->
+<div id="tab-tools" class="main" style="display:none">
+  <p style="font-size:.83rem;color:#666;margin-bottom:1.25rem;line-height:1.7">Core tools used across ABL's reporting suite.</p>
+  <div class="tool-ref-card"><div class="tool-ref-label" style="color:#5b21b6">Power Query</div><div class="tool-ref-body">Automated data extraction from Dynamics CRM and Dropbox-hosted Excel files. Central to the Daily Liquidity Report automation.</div></div>
+  <div class="tool-ref-card"><div class="tool-ref-label" style="color:#9d174d">VBA Macros</div><div class="tool-ref-body">Automates multi-step workflows — consolidating Power Query refreshes into one-click execution for end users.</div></div>
+  <div class="tool-ref-card"><div class="tool-ref-label" style="color:#1e40af">Excel Formulas &amp; Referencing</div><div class="tool-ref-body">Cross-sheet references drive leverage ratios, PVE, covenant thresholds, haircut projections, and 29-day liquidity forecasts.</div></div>
+  <div class="tool-ref-card"><div class="tool-ref-label" style="color:#065f46">Databricks SQL</div><div class="tool-ref-body">Builds and maintains mart-layer tables via multi-CTE queries against the CRM staging layer. Powers all Power BI dashboards.</div></div>
+  <div class="tool-ref-card"><div class="tool-ref-label" style="color:#9d174d">Power BI</div><div class="tool-ref-body">Connects to Databricks mart tables to surface KPI dashboards for the DSCR UW team.</div></div>
+  <div class="tool-ref-card"><div class="tool-ref-label" style="color:#92400e">Dynamics CRM</div><div class="tool-ref-body">ABL's primary source for loan-level data: originations, balances, payoffs, and collateral attributes.</div></div>
+  <div class="tool-ref-card"><div class="tool-ref-label" style="color:#374151">Manual Entry</div><div class="tool-ref-body">Required for data from external parties — bank portals, Mizuho emails, PDF notices, and Teams posts.</div></div>
+</div>
+
+
+<!-- ████ GLOSSARY TAB ████ -->
+<div id="tab-glossary" class="main" style="display:none">
+  <p style="font-size:.83rem;color:#666;margin-bottom:1.25rem;line-height:1.7">Key terms used across ABL's treasury and finance reports.</p>
+  <div class="sec-box">
+    <table class="ds-table">
+      <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+      <tbody>
+        <tr><td><strong>WH / Warehouse</strong></td><td>Short-term credit facility from a bank used to fund loan originations before they are sold or securitized.</td></tr>
+        <tr><td><strong>PVE</strong></td><td>Purchase Value Excess — amount by which collateral value exceeds the outstanding warehouse balance.</td></tr>
+        <tr><td><strong>UPB</strong></td><td>Unpaid Principal Balance — remaining principal owed on a loan or pool of loans.</td></tr>
+        <tr><td><strong>RTL Shelf</strong></td><td>Residential Transition Loan securitization shelf — issues ABS backed by short-term bridge/fix-and-flip loans.</td></tr>
+        <tr><td><strong>DSCR</strong></td><td>Debt Service Coverage Ratio — loan type for investment properties assessed on rental income.</td></tr>
+        <tr><td><strong>Initial UW</strong></td><td>First underwriting review stage. First date marked captured as <code>1st_initial_uw</code>.</td></tr>
+        <tr><td><strong>Final UW</strong></td><td>Final underwriting stage before a loan clears to close. First date marked captured as <code>1st_final_uw</code>.</td></tr>
+        <tr><td><strong>LTS / Term Sheet Sent</strong></td><td>Stage when the Loan Term Sheet is formally sent to the borrower. Captured as <code>1st_lts_sent</code>.</td></tr>
+        <tr><td><strong>Audit Log</strong></td><td><code>staging.dynamics.audit</code> — records every field-level change to a loan record including stage transitions.</td></tr>
+        <tr><td><strong>CTE</strong></td><td>Common Table Expression — a named subquery used to modularise complex SQL logic before a final SELECT.</td></tr>
+        <tr><td><strong>Mart table</strong></td><td>A curated, production-ready table in the <code>marts</code> schema, consumed by Power BI dashboards.</td></tr>
+        <tr><td><strong>PA / AA</strong></td><td>Payment Account / Accumulation Account — trust accounts within a securitization structure.</td></tr>
+        <tr><td><strong>1_Pager</strong></td><td>The master summary tab/output of the Daily Liquidity Report.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<script>
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  ['reports','dashboards','tools','glossary'].forEach(function(t) {
+    var el = document.getElementById('tab-' + t);
+    if (el) el.style.display = (t === tab) ? 'block' : 'none';
+  });
+}
+
+function switchDash(id, btn) {
+  document.querySelectorAll('.dash-sel-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  ['dash1','dash2'].forEach(function(d) {
+    var el = document.getElementById(d);
+    if (el) el.style.display = (d === id) ? 'block' : 'none';
+  });
+}
+
+function toggleCard(h) {
+  var b = h.nextElementSibling;
+  var open = b.classList.contains('show');
+  b.classList.toggle('show', !open);
+  h.parentElement.classList.toggle('open', !open);
+}
+
+function toggleQuery(id) {
+  var el = document.getElementById(id);
+  var icon = document.getElementById(id + '-icon');
+  if (!el || !icon) return;
+  var open = el.style.display === 'block';
+  el.style.display = open ? 'none' : 'block';
+  icon.textContent = open ? '▼ View code' : '▲ Hide code';
+}
+
+function filterReports() {
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var freq = document.getElementById('freqFilter').value;
+  document.querySelectorAll('#tab-reports .report-card').forEach(function(c) {
+    var mq = !q || c.dataset.keywords.includes(q) || c.querySelector('.rc-title').textContent.toLowerCase().includes(q);
+    var mf = !freq || c.dataset.freq === freq;
+    c.style.display = (mq && mf) ? '' : 'none';
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input', filterReports);
+document.getElementById('freqFilter').addEventListener('change', filterReports);
+</script>
+</body>
+</html>
